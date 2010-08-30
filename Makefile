@@ -5,8 +5,9 @@ CC = g++
 
 
 all:
+	$(CC) $(CFLAGS) -c go.cpp -o go.o
 	$(CC) $(CFLAGS) -c main.cpp -o main.o
-	$(CC) -o $(TARGET) main.o $(LIBS)
+	$(CC) -o $(TARGET) go.o main.o $(LIBS)
 	#$(CC) $(CFLAGS) -c GameObj.cpp -o GameObj.o
 	#$(CC) -o $(TARGET) GameObj.o $(LIBS)  
 	strip $(TARGET)

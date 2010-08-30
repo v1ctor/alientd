@@ -9,7 +9,7 @@ class go
 	//int price;
 	//int health;
 public:
-	go(int x_tmp, int y_tmp, char* dir);//, int price_tmp, int health_tmp);
+	go(int x_tmp, int y_tmp);//, char *dir);//, int price_tmp, int health_tmp);
 	~go() {return;};
 	void setx(int tmp){x = tmp;};
 	void sety(int tmp){y = tmp;};

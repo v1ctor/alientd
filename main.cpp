@@ -23,8 +23,8 @@ void DrawScene(){
 
 int main(int argc, char** argv)
 {
-	go tmp;
-	tmp.setx(2);
+	go* tmp = new go(1,1);//,"dir");
+	tmp->setx(2);
 	//printf(go);
 	//printf("x=%X",tmp.getx());
 
