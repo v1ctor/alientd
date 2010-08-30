@@ -6,13 +6,17 @@
 #include "go.h"
 
 SDL_Surface *screen;
-
+go tmp(17,17, "/home/v1ctor/git/ATA/img/ball.bmp",screen);
 
 void DrawScene(){
 	
-	
+	SDL_Rect dest;
+	dest.x = 100;//tmp->getx();
+	//printf("%X",tmp->getx());
+	dest.y = 100;//tmp->gety();
+	SDL_BlitSurface(SDL_LoadBMP("/home/v1ctor/git/ATA/img/ball.bmp"),NULL,screen,&dest);
+	tmp.draw();
 	SDL_Flip(screen);
-	
 	
 	};
 
@@ -23,10 +27,17 @@ void DrawScene(){
 
 int main(int argc, char** argv)
 {
-	go* tmp = new go(1,1);//,"dir");
-	tmp->setx(2);
+	//go tmp
+	//tmp->setx(20);
+	
+	
+	
 	//printf(go);
 	//printf("x=%X",tmp.getx());
+
+
+
+
 
 	
 	if (SDL_Init(SDL_INIT_VIDEO)<0)
