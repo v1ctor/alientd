@@ -15,13 +15,13 @@ public:
 	~go() {return;};
 	void setx(int tmp){x = tmp;};
 	void sety(int tmp){y = tmp;};
-	char* getimg(){return img;}
+	SDL_Surface* getimg(){return img;}
 	int getx(){return x;};
 	int gety(){return y;};
 	void draw();
 private:
 	int x,y;
-	char *img;
+	SDL_Surface *img;
 	SDL_Surface *mScreen;
 	//int price;
 	//int health;

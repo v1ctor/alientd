@@ -3,6 +3,7 @@
 
 
 #include "SDL.h"
+#include "go.h"
 
 
 static int field[10][10] = {
@@ -18,5 +19,6 @@ static int field[10][10] = {
 				 {0,0,1,0,0,0,0,0,0,0}
 	            };
 
-void DrawIMG(int x, int y, char* dir, SDL_Surface* screen);
+void InitImages();
+void DrawIMG(int x, int y, SDL_Surface *img, SDL_Surface* screen);
 #endif //__TOOLS_H__

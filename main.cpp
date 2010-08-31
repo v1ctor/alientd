@@ -7,46 +7,71 @@
 #include "enemy.h"
 #include "tower.h"
 
-SDL_Surface *screen;
+SDL_Surface *screen, *ground, *road;
 //go *tmp;
 enemy *tmp;
-tower *twr;
+//tower *twr;
+tower* twr[10][10] = {};
 
 
+void InitImages()
+{
+	//SDL_Surface *tmp;
+	road = SDL_LoadBMP("img/road.bmp");
+	road = SDL_DisplayFormat(road);
+	
+	ground = SDL_LoadBMP("img/ground.bmp");
+	ground = SDL_DisplayFormat(ground);
+	
+	}
 
 
 	
 void DrawBackground()
 {
-		for (int i = 0; i<10; i++)
-	for (int j = 0; j<10; j++)
-		if (field[i][j] == 1)
-			{DrawIMG(60*j,60*i,"img/road.bmp",screen);}
-		else
-			{DrawIMG(60*j,60*i,"img/ground.bmp",screen);}
-			
-		
+		for (int i = 0; i<10; i++) 
+		{
+			for (int j = 0; j<10; j++)
+			{
+				if (field[i][j] == 1)
+						{DrawIMG(60*i,60*j,road,screen);}
+				if (field[i][j] == 0)
+						{DrawIMG(60*i,60*j,ground,screen);}
+				if (twr[i][j]!=NULL)
+						twr[i][j]->draw();
+			}
+		 }
 	}
 
 void DrawScene(){
 	
 
-	DrawBackground();
+	 DrawBackground();
 
-	SDL_Rect dest;
-	tmp->draw();
-	if(twr!=NULL)
-	{
-		twr->draw();
-		}
+
+	//tmp->draw();
+	//if(twr!=NULL)
+	//{
+		//twr->draw();
+		//}
 	SDL_Flip(screen);
 	
 	}
 
 void CreateTower(int x,int y)
 {
-	 twr = new tower(60*x,60*y,"img/ball.bmp",screen);
-	 
+	 if (twr[x][y]==NULL)
+	 {
+		 printf("%i,%i\n",x,y);
+	 twr[x][y]  = new tower(60*x,60*y,"img/ball.bmp",screen);
+	}
+	
+	}
+void DeleteTower(int x,int y)
+{
+	
+	 	 twr[x][y] = NULL;
+	
 	
 	}
 
@@ -72,9 +97,9 @@ int main(int argc, char** argv)
 		}
 		
 		
-  //  tmp = new go(99,77, "img/ball.bmp",screen);
+
 	tmp = new enemy(360,0,"img/ball.bmp",screen);
-	
+	InitImages();
 	
 	
 	//SDL_ShowCursor(0);
@@ -97,7 +122,13 @@ int main(int argc, char** argv)
 			case SDL_MOUSEBUTTONDOWN:
 				printf("Mouse button %d pressed at (%d,%d)\n",
 				event.button.button, (int)(event.button.x / 60), (int)(event.button.y/60));
-				CreateTower((int)(event.button.x / 60),(int)(event.button.y/60));
+				int x_tmp = (int)(event.button.x / 60);
+				int y_tmp = (int)(event.button.y / 60);
+				if(field[x_tmp][y_tmp]!=1 && event.button.x <= 600 && event.button.button == 1)
+					CreateTower(x_tmp,y_tmp);
+				if(twr[x_tmp][y_tmp]!=NULL && event.button.x <= 600 && event.button.button == 3)
+					DeleteTower(x_tmp,y_tmp);
+					
                 break;
 
 				
