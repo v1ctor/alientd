@@ -7,8 +7,9 @@ CC = g++
 all:
 	$(CC) $(CFLAGS) -c go.cpp -o go.o
 	$(CC) $(CFLAGS) -c tools.cpp -o tools.o
+	$(CC) $(CFLAGS) -c enemy.cpp -o enemy.o
 	$(CC) $(CFLAGS) -c main.cpp -o main.o
-	$(CC) -o $(TARGET) tools.o go.o main.o $(LIBS)
+	$(CC) -o $(TARGET) enemy.o tools.o go.o main.o $(LIBS)
 	#strip $(TARGET)
 clean:
 	rm *.o 

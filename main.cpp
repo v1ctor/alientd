@@ -7,14 +7,16 @@
 #include "enemy.h"
 #include "tower.h"
 
-SDL_Surface *screen, *ground, *road;
+SDL_Surface *screen, *ground, *road, *alien, *towerimg;
 //go *tmp;
 enemy *tmp;
 //tower *twr;
 tower* twr[10][10] = {};
-int money = 1000;
+int money = 500;
 
 
+//----------------------------------------------------------------------
+//Загрузка изображений
 void InitImages()
 {
 	//SDL_Surface *tmp;
@@ -24,10 +26,16 @@ void InitImages()
 	ground = SDL_LoadBMP("img/ground.bmp");
 	ground = SDL_DisplayFormat(ground);
 	
+	towerimg = SDL_LoadBMP("img/tower.bmp");
+	towerimg = SDL_DisplayFormat(towerimg);
+	
+	alien = SDL_LoadBMP("img/zerg.bmp");
+	alien = SDL_DisplayFormat(alien);
+	
 	}
 
-
-	
+//----------------------------------------------------------------------
+//Отрисовка заднего фона	
 void DrawBackground()
 {
 		for (int i = 0; i<10; i++) 
@@ -35,15 +43,17 @@ void DrawBackground()
 			for (int j = 0; j<10; j++)
 			{
 				if (field[i][j] == 1)
-						{DrawIMG(60*i,60*j,road,screen);}
+						{DrawIMG(i,j,road,screen);}
 				if (field[i][j] == 0)
-						{DrawIMG(60*i,60*j,ground,screen);}
+						{DrawIMG(i,j,ground,screen);}
 				if (twr[i][j]!=NULL)
 						twr[i][j]->draw();
 			}
 		 }
 	}
 
+//----------------------------------------------------------------------
+//Рисование башень
 void DrawTowers()
 {
 		for (int i = 0; i<10; i++) 
@@ -56,54 +66,66 @@ void DrawTowers()
 			}
 		 }
 	}
-	
-	
+//----------------------------------------------------------------------
+//Рисование врага
+void DrawEnemy()
+{   //sleep(0.5);
+     
+     if (!tmp->end)
+     {
+		 tmp->draw();
+		 tmp->move();
+	}
+	}
+//----------------------------------------------------------------------	
+//Отрисовка всего
 
 void DrawScene(){
-	
-
-	 //DrawBackground();
-
-
-	//tmp->draw();
-	//if(twr!=NULL)
-	//{
-		//twr->draw();
-		//}
+	DrawBackground();
+	DrawTowers();
+	DrawEnemy();
 	SDL_Flip(screen);
 	
 	}
 
+//----------------------------------------------------------------------
+//Создание башни
 void CreateTower(int x,int y)
 {
 	 if (twr[x][y]==NULL)
 	 {
 		 //printf("%i,%i\n",x,y);
-	 twr[x][y]  = new tower(60*x,60*y,"img/ball.bmp",screen);
-	 DrawBackground();
-	 DrawTowers();
+	 twr[x][y]  = new tower(x,y,towerimg,screen);
+	// DrawBackground();
+	// DrawTowers();
 	 money-=100;
 	 printf("money=%i\n",money);
 	}
 	
 	}
+	
+//----------------------------------------------------------------------
+//Продажа башни	
 void DeleteTower(int x,int y)
 {
 	
 	 	 twr[x][y] = NULL;
 	 	 money+=50;
 	 	 printf("money=%i\n",money);
-	 	 DrawBackground();
-	DrawTowers();
+	 	// DrawBackground();
+	//DrawTowers();
 	     
 	
 	}
-
-
-
-
+//----------------------------------------------------------------------
+//MAIN LOOP
 int main(int argc, char** argv)
 {
+	
+	
+	
+//----------------------------------------------------------------------	
+//Инициализация SDL 
     if (SDL_Init(SDL_INIT_VIDEO)<0)
 		{
 			printf("Error");
@@ -119,16 +141,16 @@ int main(int argc, char** argv)
 			printf("Error");
 			exit(1);				
 		}
-		
-		
-
-	//tmp = new enemy(360,0,"img/ball.bmp",screen);
+//----------------------------------------------------------------------		
+	
+//Иниацилизация игровых объектов	
 	InitImages();
-	DrawBackground();
+	//DrawBackground();
+	tmp = new enemy(9,2,alien,screen);
+
+//----------------------------------------------------------------------
 	
 	
-	//SDL_ShowCursor(0);
-	//InitImages();
 	int done=0;
 	while (done == 0)
 	{	
@@ -140,27 +162,32 @@ int main(int argc, char** argv)
 			{
 			case SDL_QUIT: 
 				done = 1;
-				break;
+			break;
 			case SDL_KEYDOWN:			
 				if (event.key.keysym.sym == SDLK_ESCAPE) {done = 1;}
-				break;
+			break;
 			case SDL_MOUSEBUTTONDOWN:
-				//printf("Mouse button %d pressed at (%d,%d)\n",
-				//event.button.button, (int)(event.button.x / 60), (int)(event.button.y/60));
+
 				int x_tmp = (int)(event.button.x / 60);
 				int y_tmp = (int)(event.button.y / 60);
-				if(field[x_tmp][y_tmp]!=1 && event.button.x <= 600 && event.button.button == 1 && money - 100 >= 0)
-					CreateTower(x_tmp,y_tmp);
-				if(twr[x_tmp][y_tmp]!=NULL && event.button.x <= 600 && event.button.button == 3)
-					DeleteTower(x_tmp,y_tmp);
+				if (field[x_tmp][y_tmp]!=1 && 
+					event.button.x <= 600 && 
+					event.button.button == 1 && 
+					money - 100 >= 0)
+							CreateTower(x_tmp,y_tmp);
+				if (twr[x_tmp][y_tmp]!=NULL && 
+					event.button.x <= 600 && 
+					event.button.button == 3)
+							DeleteTower(x_tmp,y_tmp);
+
 					
-                break;
+					
+			break;
 
 				
 
 		}
 		}
-		//sleep(1);
 		DrawScene();
 		
 	}

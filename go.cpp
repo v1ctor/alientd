@@ -6,14 +6,13 @@
 #include <stdio.h>
 
 
-go::go(int x_tmp, int y_tmp, char *dir, SDL_Surface* screen)
+go::go(int x_tmp, int y_tmp, SDL_Surface *dir, SDL_Surface* screen)
 {
 
 	x = x_tmp;
 	y = y_tmp;
     mScreen = screen;
-	img=SDL_LoadBMP(dir);
-	img = SDL_DisplayFormat(img);
+	img = dir;
 	//SDL_FreeSurface(tmp);
 	
 	

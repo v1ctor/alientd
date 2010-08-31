@@ -10,8 +10,8 @@ void DrawIMG(int x, int y, SDL_Surface *img, SDL_Surface* screen)
 	//tmp=SDL_LoadBMP(dir);
 	//tmp = SDL_DisplayFormat(tmp);
 	SDL_Rect dest;
-	dest.x = x;
-	dest.y = y;
+	dest.x = x*range;
+	dest.y = y*range;
 	SDL_BlitSurface(img,NULL,screen,&dest);
 	//SDL_FreeSurface(tmp);
 	

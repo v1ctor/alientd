@@ -11,7 +11,7 @@ class go
 {
 
 public:
-	go(int x_tmp, int y_tmp, char *dir, SDL_Surface *screen);//, int price_tmp, int health_tmp);
+	go(int x_tmp, int y_tmp, SDL_Surface *dir, SDL_Surface *screen);//, int price_tmp, int health_tmp);
 	~go() {return;};
 	void setx(int tmp){x = tmp;};
 	void sety(int tmp){y = tmp;};
@@ -19,7 +19,7 @@ public:
 	int getx(){return x;};
 	int gety(){return y;};
 	void draw();
-private:
+protected:
 	int x,y;
 	SDL_Surface *img;
 	SDL_Surface *mScreen;
