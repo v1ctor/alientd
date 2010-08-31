@@ -11,10 +11,9 @@ go *tmp;
 void DrawScene(){
 	
 	SDL_Rect dest;
-	dest.x = 100;//tmp->getx();
-	//printf("%X",tmp->getx());
-	dest.y = 100;//tmp->gety();
-	SDL_BlitSurface(SDL_LoadBMP("/home/v1ctor/git/ATA/img/ball.bmp"),NULL,screen,&dest);
+	//dest.x = 100;
+	//dest.y = 100;
+	//SDL_BlitSurface(SDL_LoadBMP("img/ball.bmp"),NULL,screen,&dest);
 	tmp->draw();
 	SDL_Flip(screen);
 	
@@ -27,22 +26,7 @@ void DrawScene(){
 
 int main(int argc, char** argv)
 {
-
-	tmp = new go((int)99,(int)77, "/home/v1ctor/git/ATA/img/ball.bmp",screen);
-	//go tmp
-	//tmp->setx(20);
-	
-	
-	
-	//printf(go);
-	//printf("x=%X",tmp.getx());
-
-
-
-
-
-	
-	if (SDL_Init(SDL_INIT_VIDEO)<0)
+    if (SDL_Init(SDL_INIT_VIDEO)<0)
 		{
 			printf("Error");
 			exit(1);	
@@ -58,6 +42,12 @@ int main(int argc, char** argv)
 			exit(1);				
 		}
 		
+		
+    tmp = new go(99,77, "img/ball.bmp",screen);
+	
+	
+	
+	
 	//SDL_ShowCursor(0);
 	//InitImages();
 	int done=0;
