@@ -12,6 +12,7 @@ SDL_Surface *screen, *ground, *road;
 enemy *tmp;
 //tower *twr;
 tower* twr[10][10] = {};
+int money = 1000;
 
 
 void InitImages()
@@ -43,10 +44,25 @@ void DrawBackground()
 		 }
 	}
 
+void DrawTowers()
+{
+		for (int i = 0; i<10; i++) 
+		{
+			for (int j = 0; j<10; j++)
+			{
+				
+				if (twr[i][j]!=NULL)
+						twr[i][j]->draw();
+			}
+		 }
+	}
+	
+	
+
 void DrawScene(){
 	
 
-	 DrawBackground();
+	 //DrawBackground();
 
 
 	//tmp->draw();
@@ -62,8 +78,12 @@ void CreateTower(int x,int y)
 {
 	 if (twr[x][y]==NULL)
 	 {
-		 printf("%i,%i\n",x,y);
+		 //printf("%i,%i\n",x,y);
 	 twr[x][y]  = new tower(60*x,60*y,"img/ball.bmp",screen);
+	 DrawBackground();
+	 DrawTowers();
+	 money-=100;
+	 printf("money=%i\n",money);
 	}
 	
 	}
@@ -71,7 +91,11 @@ void DeleteTower(int x,int y)
 {
 	
 	 	 twr[x][y] = NULL;
-	
+	 	 money+=50;
+	 	 printf("money=%i\n",money);
+	 	 DrawBackground();
+	DrawTowers();
+	     
 	
 	}
 
@@ -98,8 +122,9 @@ int main(int argc, char** argv)
 		
 		
 
-	tmp = new enemy(360,0,"img/ball.bmp",screen);
+	//tmp = new enemy(360,0,"img/ball.bmp",screen);
 	InitImages();
+	DrawBackground();
 	
 	
 	//SDL_ShowCursor(0);
@@ -120,11 +145,11 @@ int main(int argc, char** argv)
 				if (event.key.keysym.sym == SDLK_ESCAPE) {done = 1;}
 				break;
 			case SDL_MOUSEBUTTONDOWN:
-				printf("Mouse button %d pressed at (%d,%d)\n",
-				event.button.button, (int)(event.button.x / 60), (int)(event.button.y/60));
+				//printf("Mouse button %d pressed at (%d,%d)\n",
+				//event.button.button, (int)(event.button.x / 60), (int)(event.button.y/60));
 				int x_tmp = (int)(event.button.x / 60);
 				int y_tmp = (int)(event.button.y / 60);
-				if(field[x_tmp][y_tmp]!=1 && event.button.x <= 600 && event.button.button == 1)
+				if(field[x_tmp][y_tmp]!=1 && event.button.x <= 600 && event.button.button == 1 && money - 100 >= 0)
 					CreateTower(x_tmp,y_tmp);
 				if(twr[x_tmp][y_tmp]!=NULL && event.button.x <= 600 && event.button.button == 3)
 					DeleteTower(x_tmp,y_tmp);
@@ -135,7 +160,7 @@ int main(int argc, char** argv)
 
 		}
 		}
-		
+		//sleep(1);
 		DrawScene();
 		
 	}
