@@ -47,20 +47,14 @@ void InitImages()
 void Lighting(int x, int y)
 {
 	
-	if (twr[x][y]==NULL && money >= 100)	
-		{
-	         x = x*range;
-	         y = y*range;
-			DrawIMG(x,y,allow,screen);
-		}
-		else
-		{
-			x = x*range;
-	         y = y*range;
-			DrawIMG(x,y,deny,screen);
+	if (twr[x][y]==NULL && money < 100)	
+			DrawIMG(x*range,y*range,deny,screen);
+	else
+		    DrawIMG(x*range,y*range,allow,screen);
 			
 			
-			}
+			
+			
 	
 	
 	
@@ -77,7 +71,9 @@ void DrawTowers()
 			for (int j = 0; j<10; j++) 
 		{
 				if (twr[i][j]!=NULL)
-					twr[i][j]->draw();
+					//twr[i][j]->draw();
+					if (twr[i][j]->detect(enm[1])) 
+						return;
 			}
 		 }
 	}
@@ -94,7 +90,7 @@ for (int i=0; i<2; i++)
 	int y_twr = (int) enm[i]->gety() / range;
 	
 	
-	DrawIMG(enm[i]->getx(),enm[i]->gety(),range,range,enm[i]->getx(),enm[i]->gety(),back,screen);
+	DrawIMG(enm[i]->getx(),enm[i]->gety(),enm[i]->getimg()->h,enm[i]->getimg()->w,enm[i]->getx(),enm[i]->gety(),back,screen);
 	if (x_twr == 9 && y_twr == 0)
 		{ enm[i] = NULL;
 			continue;
@@ -133,8 +129,8 @@ return;
 void DrawScene(){
 	
 
-	//DrawTowers();
-
+	DrawTowers();
+    
     DrawEnemy();
 	SDL_Flip(screen);
 	

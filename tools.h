@@ -1,11 +1,13 @@
 #ifndef TOOLS_H
 #define TOOLS_H
+#define sqr(x) ((x)*(x))
 
 
 #include "SDL.h"
 #include "go.h"
 #include <iostream>
 #include <stdio.h>
+#include <math.h>
 
 static SDL_Surface *screen, *back, *alien, *towerimg, *bullet, *allow, *deny;
 static int money = 500;

@@ -1,19 +1,26 @@
 #ifndef TOWER_H
 #define TOWER_H
 #include "go.h"
+#include "enemy.h"
 
 
 
 class tower : public go
 {
 public:
-	tower(int x_tmp, int y_tmp, SDL_Surface *dir, SDL_Surface *screen):go(x_tmp,y_tmp,dir,screen){};
+	tower(int x_tmp, int y_tmp, SDL_Surface *dir, SDL_Surface *screen):go(x_tmp,y_tmp,dir,screen)
+	{
+		x_c = (int) (x + 0.5 * range);
+		y_c = (int) (y + 0.5 * range);
+		radius = (int) range + 0.5 * range;
+	};
 	~tower(){};
 	void attack();//int x, int y);
-	void detect();
+	bool detect(enemy *tmp);
 protected:
 	 int radius;
-	 int x_prev,y_prev;
+	 int x_c,y_c;
+	 //int x_prev,y_prev;
 
 
 

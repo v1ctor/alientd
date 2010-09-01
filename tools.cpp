@@ -1,5 +1,4 @@
 #include "tools.h"
-
     
 void DrawIMG(int x, int y, SDL_Surface *img, SDL_Surface* screen)
 {

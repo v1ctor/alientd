@@ -3,33 +3,30 @@
 #include "tower.h"
 #include "tools.h"
 
-int x_tmp = 5, y_tmp = 5;
-void tower::attack()//int x_tmp, int y_tmp)
+
+
+void tower::attack()
 {
+}
+
+
+bool tower::detect(enemy *tmp)
+{
+	if (tmp == NULL) return false;
 	
-	//~ БРЕД
-	//~ bullet = SDL_LoadBMP("img/bullet.bmp");
-	//~ bullet = SDL_DisplayFormat(bullet);
-	//~ 
-	//~ x_prev = x;
-	//~ y_prev = y;
-	//~ 
-	//~ if (x_prev != x_tmp && y_prev != y_tmp)
-	//~ {
-		//~ if (bullet!=NULL)
-				//~ {
-				//~ 
-				//~ DrawIMG(x_tmp-2, y_tmp-2, 21, 21, x_tmp, y_tmp,mScreen,mScreen); 
-	            //~ DrawIMG(ball,x_ball,y_ball);
-				//~ }
-		//~ else
-			//~ printf("x=%i  y=%i\n",x_tmp,y_tmp);
-	//~ }
-		//~ x_tmp-=1;
-		//~ y_tmp-=1;
-		
+	int x_tmp = tmp->getx();
+	int y_tmp = tmp->gety();
+	int h_tmp = tmp->getimg()->h;
+	
+	//if (x_tmp + h_tmp > x_c - radius && y_tmp + h_tmp < y_c - radius)
+	if (sqrt(sqr(x_tmp + h_tmp - x_c) + sqr(y_tmp + h_tmp - y_c)) < radius ||
+		sqrt(sqr(x_tmp + h_tmp - x_c) + sqr(y_tmp - y_c)) < radius || 
+		sqrt(sqr(x_tmp - x_c) + sqr(y_tmp + h_tmp - y_c)) < radius ||
+		sqrt(sqr(x_tmp - x_c) + sqr(y_tmp - y_c)) < radius)	
+				//printf ("%i %i %i\n",x_tmp,x_c,radius);
+			return true;
 		
 	
 	
-	
+	return false;
 	}
