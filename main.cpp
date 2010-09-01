@@ -71,6 +71,7 @@ void DrawTowers()
 						//twr[i][j]->attack();//i*range+100,j*range+100);
 			}
 		 }
+		 SDL_Flip(screen);
 	}
 //----------------------------------------------------------------------
 //Рисование врага
@@ -85,6 +86,7 @@ void DrawEnemy()
 		 count=0;
 		 }
 	}
+	SDL_Flip(screen);
 	//~ else
 	//~ {
 		//~ DrawIMG(tmp->getx(),tmp->gety(),road,screen);
@@ -99,7 +101,7 @@ void DrawScene(){
 	//DrawBackground();
 	DrawTowers();
 	DrawEnemy();
-	SDL_Flip(screen);
+	//SDL_Flip(screen);
 	count++;
 	
 	}
@@ -204,6 +206,7 @@ int main(int argc, char** argv)
 
 		}
 		}
+		 
 		DrawScene();
 		
 	}

@@ -25,5 +25,5 @@ static int field[10][10] = {
 
 static void InitImages();
 void DrawIMG(int x, int y, SDL_Surface *img, SDL_Surface* screen);
-void DrawIMG(int x, int y, int w, int h, int sx, int sy, SDL_Surface *img, SDL_Surface *screen);
+void DrawIMG(int x, int y, int w, int h, int sx, int sy, SDL_Surface *img, SDL_Surface *screen)
 #endif //__TOOLS_H__
