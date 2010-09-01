@@ -6,8 +6,9 @@
 
 void enemy::move()
 {
-
-		end = 1;
+		x+=speed;
+		y-=speed;
+		//end = 1;
 		return;
 	
 	}

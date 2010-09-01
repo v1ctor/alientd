@@ -7,7 +7,7 @@
 #include <iostream>
 #include <stdio.h>
 
-static SDL_Surface *screen, *back, *alien, *towerimg, *bullet;
+static SDL_Surface *screen, *back, *alien, *towerimg, *bullet, *allow, *deny;
 static int money = 500;
 static int range = 60;
 
