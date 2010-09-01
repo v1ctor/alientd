@@ -4,7 +4,7 @@
 #include "tower.h"
 
 
-enemy *tmp;
+enemy *enm[2]={};
 //tower *twr;
 tower* twr[10][10]= {};
 
@@ -85,21 +85,48 @@ void DrawTowers()
 //Рисование врага
 void DrawEnemy()
 { 	
-	DrawIMG(tmp->getx(),tmp->gety(),range,range,tmp->getx(),tmp->gety(),back,screen);
-	if (count == 15)
-	{ 
-	if(tmp->getx() < 9*range && tmp->gety() > 0)
-	{
-		tmp->move();
-		
-		count = 0;
-     }
- }
-	tmp->draw();
-     count++;
-
 	
+for (int i=0; i<2; i++)
+{ if (enm[i]!=NULL)
+	{
+		
+	int x_twr = (int) enm[i]->getx() / range;
+	int y_twr = (int) enm[i]->gety() / range;
+	
+	
+	DrawIMG(enm[i]->getx(),enm[i]->gety(),range,range,enm[i]->getx(),enm[i]->gety(),back,screen);
+	if (x_twr == 9 && y_twr == 0)
+		{ enm[i] = NULL;
+			continue;
+		}
+	
+	
+	if (twr[x_twr][y_twr]!=NULL)
+		twr[x_twr][y_twr]->draw();
+	if (x_twr < 9 && twr[x_twr + 1][y_twr]!=NULL)
+		twr[x_twr + 1][y_twr]->draw();
+	if (y_twr < 9 && twr[x_twr][y_twr + 1]!=NULL)
+		twr[x_twr][y_twr + 1]->draw();
+	if (x_twr < 9 && y_twr < 9 && twr[x_twr + 1][y_twr + 1]!=NULL)
+		twr[x_twr + 1][y_twr + 1]->draw();
+	
+	
+	if (enm[i]->count == 16)
+	{ 
+		if(enm[i]->getx() < 9*range && enm[i]->gety() > 0)
+		{
+			enm[i]->move();
+			enm[i]->count = 0;
+		}
 	}
+	
+	enm[i]->draw();
+	enm[i]->count++;
+	
+}	
+}
+return;
+}
 //----------------------------------------------------------------------	
 //Отрисовка всего
 
@@ -107,12 +134,13 @@ void DrawScene(){
 	
 
 	//DrawTowers();
-	
-	DrawEnemy();
+
+    DrawEnemy();
 	SDL_Flip(screen);
 	
 	
 	}
+
 
 //----------------------------------------------------------------------
 //Создание башни
@@ -123,10 +151,6 @@ void CreateTower(int x,int y)
 	     money-=100;
 		 printf("money=%i\n",money);
 	}
-	
-	
-	
-	
 	
 //----------------------------------------------------------------------
 //Продажа башни	
@@ -170,7 +194,9 @@ int main(int argc, char** argv)
 //Иниацилизация игровых объектов	
 	InitImages();
     DrawIMG(0,0,back,screen);
-	tmp = new enemy(0,9*range,alien,screen);
+    
+	enm[0] = new enemy(-2*range,11*range,alien,screen);
+	enm[1] = new enemy(-1*range,10*range,alien,screen);
 
 //----------------------------------------------------------------------
 
