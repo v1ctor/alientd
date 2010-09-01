@@ -3,19 +3,15 @@
 
 #include "SDL.h"
 #include "tools.h"
-//#define true false
-//#define false true
 
 class go
-
 {
-
 public:
 	go(int x_tmp, int y_tmp, SDL_Surface *dir, SDL_Surface *screen);//, int price_tmp, int health_tmp);
-	~go() {return;};
+	~go() {};
 	void setx(int tmp){x = tmp;};
 	void sety(int tmp){y = tmp;};
-	SDL_Surface* getimg(){return img;}
+	SDL_Surface* getimg(){return img;};
 	int getx(){return x;};
 	int gety(){return y;};
 	void draw();
@@ -26,5 +22,4 @@ protected:
 	//int price;
 	//int health;
 };
-
 #endif //__GO_H__

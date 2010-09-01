@@ -2,7 +2,6 @@
 #define ENEMY_H
 
 #include "go.h"
-#include "tools.h"
 
 
 class enemy : public go
@@ -15,9 +14,10 @@ public:
 	~enemy(){};
 	void move();
 	int end;
+	int getxprev(){return x_prev;};
+	int getyprev(){return y_prev;};
 protected:
 	int speed;
-	int xt,yt;
 	int x_prev;
 	int y_prev;
 

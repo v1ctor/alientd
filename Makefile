@@ -9,7 +9,8 @@ all:
 	$(CC) $(CFLAGS) -c tools.cpp -o tools.o
 	$(CC) $(CFLAGS) -c enemy.cpp -o enemy.o
 	$(CC) $(CFLAGS) -c main.cpp -o main.o
-	$(CC) -o $(TARGET) enemy.o tools.o go.o main.o $(LIBS)
+	$(CC) $(CFLAGS) -c tower.cpp -o tower.o
+	$(CC) -o $(TARGET) enemy.o tower.o tools.o go.o main.o $(LIBS)
 	#strip $(TARGET)
 clean:
 	rm *.o 

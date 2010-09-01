@@ -1,20 +1,15 @@
 
-
-#include <iostream>
-#include <stdio.h>
-#include "SDL.h"
 #include "tools.h"
 #include "enemy.h"
 #include "tower.h"
 
-SDL_Surface *screen, *ground, *road, *alien, *towerimg;
+//SDL_Surface *screen, *ground, *road, *alien, *towerimg;
 //go *tmp;
 enemy *tmp;
 //tower *twr;
 tower* twr[10][10] = {};
-int money = 500;
+//int money = 500;
 int count = 0;
-
 
 //----------------------------------------------------------------------
 //Загрузка изображений
@@ -22,7 +17,7 @@ void InitImages()
 {
 	//SDL_Surface *tmp;
 	road = SDL_LoadBMP("img/road.bmp");
-	road = SDL_DisplayFormat(road);
+	road = SDL_DisplayFormat(road);	
 	
 	ground = SDL_LoadBMP("img/ground.bmp");
 	ground = SDL_DisplayFormat(ground);
@@ -33,7 +28,16 @@ void InitImages()
 	alien = SDL_LoadBMP("img/zerg.bmp");
 	alien = SDL_DisplayFormat(alien);
 	
+	//~ bullet = SDL_LoadBMP("img/bullet.bmp");
+	//~ bullet = SDL_DisplayFormat(bullet);
+	
+	if(road!=NULL && ground!=NULL && towerimg!=NULL && alien!=NULL && bullet!=NULL)
+		printf("%s\n","images init");
+	return;
 	}
+
+
+
 
 //----------------------------------------------------------------------
 //Отрисовка заднего фона	
@@ -63,7 +67,8 @@ void DrawTowers()
 			{
 				
 				if (twr[i][j]!=NULL)
-						twr[i][j]->draw();
+					twr[i][j]->draw();
+						//twr[i][j]->attack();//i*range+100,j*range+100);
 			}
 		 }
 	}
@@ -72,19 +77,26 @@ void DrawTowers()
 void DrawEnemy()
 { 	
      if (!tmp->end)
-     {
-		 tmp->draw();
-		if(count == 50)
-		{tmp->move();
-		 count=0;}
+     {	 
+		if(count == 100)
+		{	DrawIMG(tmp->getxprev(),tmp->getyprev(),road,screen);
+			tmp->draw();
+			tmp->move();
+		 count=0;
+		 }
 	}
+	//~ else
+	//~ {
+		//~ DrawIMG(tmp->getx(),tmp->gety(),road,screen);
+	//~ }
+	
 	}
 //----------------------------------------------------------------------	
 //Отрисовка всего
 
 void DrawScene(){
 	
-	DrawBackground();
+	//DrawBackground();
 	DrawTowers();
 	DrawEnemy();
 	SDL_Flip(screen);
@@ -100,6 +112,7 @@ void CreateTower(int x,int y)
 	 {
 		 //printf("%i,%i\n",x,y);
 	 twr[x][y]  = new tower(x,y,towerimg,screen);
+	 twr[x][y]->draw();
 	// DrawBackground();
 	// DrawTowers();
 	 money-=100;
@@ -112,7 +125,7 @@ void CreateTower(int x,int y)
 //Продажа башни	
 void DeleteTower(int x,int y)
 {
-	
+		DrawIMG(x,y,ground,screen);
 	 	 twr[x][y] = NULL;
 	 	 money+=50;
 	 	 printf("money=%i\n",money);
@@ -125,9 +138,6 @@ void DeleteTower(int x,int y)
 //MAIN LOOP
 int main(int argc, char** argv)
 {
-	
-	
-	
 //----------------------------------------------------------------------	
 //Инициализация SDL 
     if (SDL_Init(SDL_INIT_VIDEO)<0)
@@ -149,7 +159,9 @@ int main(int argc, char** argv)
 	
 //Иниацилизация игровых объектов	
 	InitImages();
-	//DrawBackground();
+	if(road==NULL)
+	 printf("%s\n","error");
+	DrawBackground();
 	tmp = new enemy(9,2,alien,screen);
 
 //----------------------------------------------------------------------
