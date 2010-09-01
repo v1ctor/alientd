@@ -13,6 +13,7 @@ enemy *tmp;
 //tower *twr;
 tower* twr[10][10] = {};
 int money = 500;
+int count = 0;
 
 
 //----------------------------------------------------------------------
@@ -69,22 +70,25 @@ void DrawTowers()
 //----------------------------------------------------------------------
 //Рисование врага
 void DrawEnemy()
-{   //sleep(0.5);
-     
+{ 	
      if (!tmp->end)
      {
 		 tmp->draw();
-		 tmp->move();
+		if(count == 50)
+		{tmp->move();
+		 count=0;}
 	}
 	}
 //----------------------------------------------------------------------	
 //Отрисовка всего
 
 void DrawScene(){
+	
 	DrawBackground();
 	DrawTowers();
 	DrawEnemy();
 	SDL_Flip(screen);
+	count++;
 	
 	}
 
