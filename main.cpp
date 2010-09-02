@@ -34,14 +34,45 @@ void InitImages()
 	deny = SDL_LoadBMP("img/deny.bmp");
 	deny = SDL_DisplayFormat(deny);
 	
-	//~ bullet = SDL_LoadBMP("img/bullet.bmp");
-	//~ bullet = SDL_DisplayFormat(bullet);
+	bullet = SDL_LoadBMP("img/bullet.bmp");
+	bullet = SDL_DisplayFormat(bullet);
 	
 
 	return;
 	}
 
-
+void Shot(int x, int y, tower *tmp)
+{
+	if(tmp->x_bull_end == -1 && tmp->y_bull_end == -1 )
+	{
+		tmp->x_bull_end = x;
+		tmp->y_bull_end = y;		
+		}
+		else
+		{
+		
+				DrawIMG(tmp->x_bull,tmp->y_bull,bullet->h,bullet->w,tmp->x_bull,tmp->y_bull,back,screen);
+				DrawIMG(tmp->getx(),tmp->gety(),towerimg,screen);
+         }        
+	if (tmp->x_bull == tmp->x_bull_end && tmp->y_bull == tmp->y_bull_end)
+	  {
+		  tmp->x_bull_end == -1;
+		  tmp->y_bull_end == -1;
+		  tmp->x_bull = tmp->x_c;
+		  tmp->y_bull = tmp->y_c;
+		  return;
+		  }
+	
+	tmp->x_bull ++;
+	tmp->y_bull ++;
+	
+	DrawIMG(tmp->x_bull,tmp->y_bull,bullet,screen);
+	
+	//DrawIMG(enm[i]->getx(),enm[i]->gety(),enm[i]->getimg()->h,enm[i]->getimg()->w,enm[i]->getx(),enm[i]->gety(),back,screen);
+	
+	
+	
+	}
 
 //----------------------------------------------------------------------
 //Индикация
@@ -78,10 +109,16 @@ void DrawTowers()
 					twr[i][j]->attack();
 					
 					if(twr[i][j]->attacked == NULL)
+				{	
 					for (int k=0;k<10;k++)
 						if (twr[i][j]->detect(enm[k])) 
+							
 							twr[i][j]->attacked = enm[k];
-				
+				}
+				else
+					Shot(twr[i][j]->getx()+range,twr[i][j]->gety()+range,twr[i][j]);
+					//twr[i][j]->attacked->getx(),twr[i][j]->attacked->gety(),twr[i][j]);
+					
 			       }
 			}
 		 }
@@ -148,6 +185,7 @@ void DrawScene(){
 	
 	
 	}
+
 
 
 //----------------------------------------------------------------------
