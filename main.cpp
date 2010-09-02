@@ -41,31 +41,67 @@ void InitImages()
 	return;
 	}
 
-void Shot(int x, int y, tower *tmp)
+void Shot(tower *tmp)//int x, int y, tower *tmp)
 {
-	if(tmp->x_bull_end == -1 && tmp->y_bull_end == -1 )
-	{
-		tmp->x_bull_end = x;
-		tmp->y_bull_end = y;		
-		}
-		else
-		{
-		
-				DrawIMG(tmp->x_bull,tmp->y_bull,bullet->h,bullet->w,tmp->x_bull,tmp->y_bull,back,screen);
-				DrawIMG(tmp->getx(),tmp->gety(),towerimg,screen);
-         }        
-	if (tmp->x_bull == tmp->x_bull_end && tmp->y_bull == tmp->y_bull_end)
+	
+	//Может ли кого-нить атаковать?
+	if (tmp->attacked == NULL)
 	  {
+		  DrawIMG(tmp->x_bull,tmp->y_bull,bullet->h,bullet->w,tmp->x_bull,tmp->y_bull,back,screen);
 		  tmp->x_bull_end == -1;
 		  tmp->y_bull_end == -1;
 		  tmp->x_bull = tmp->x_c;
 		  tmp->y_bull = tmp->y_c;
 		  return;
-		  }
+	}
 	
-	tmp->x_bull ++;
-	tmp->y_bull ++;
-	
+	//Если коненая точка не задана - задать)
+	if(tmp->x_bull_end == -1 && tmp->y_bull_end == -1 )
+	{
+		
+		tmp->x_bull_end = tmp->attacked->x_c;
+		tmp->y_bull_end = tmp->attacked->y_c;	
+		 printf("%i %i\n",tmp->attacked->x_c,tmp->attacked->y_c);	
+		}
+		
+		
+	//Рисовать фон	
+	DrawIMG(tmp->x_bull,tmp->y_bull,bullet->h,bullet->w,tmp->x_bull,tmp->y_bull,back,screen);
+	//Рисовать башню
+	DrawIMG(tmp->getx(),tmp->gety(),towerimg,screen);  
+	      
+	      
+	 
+	if (sqr(tmp->getx() - tmp->x_bull) + sqr(tmp->gety() - tmp->y_bull) > sqr(tmp->radius))
+	  {
+		  
+		  tmp->x_bull_end == tmp->attacked->x_c;
+		  tmp->y_bull_end == tmp->attacked->y_c;
+		  tmp->x_bull = tmp->x_c;
+		  tmp->y_bull = tmp->y_c;
+		  return;
+      }
+		  
+		  int speedx = (int) (tmp->x_bull_end - tmp->getx()) / 100;
+		  int speedy = (int) (tmp->y_bull_end - tmp->gety()) / 100;
+		  //~ printf("%i %i\n",speedx,speedy);
+	//~ if (tmp->x_bull_end < tmp->getx())
+		//~ //tmp->x_bull += speedx;
+		//~ 
+		//~ 
+	//~ if (tmp->x_bull_end > tmp->getx())
+		//~ tmp->x_bull += speedx;
+		//~ 
+	//~ 
+	//~ if (tmp->y_bull_end < tmp->gety())
+		//~ 
+		//~ 
+	//~ if (tmp->y_bull_end > tmp->gety())
+		//~ 
+		
+		tmp->x_bull += speedx;
+		tmp->y_bull += speedy;
+		
 	DrawIMG(tmp->x_bull,tmp->y_bull,bullet,screen);
 	
 	//DrawIMG(enm[i]->getx(),enm[i]->gety(),enm[i]->getimg()->h,enm[i]->getimg()->w,enm[i]->getx(),enm[i]->gety(),back,screen);
@@ -108,24 +144,26 @@ void DrawTowers()
 					{
 					twr[i][j]->attack();
 					
-					if(twr[i][j]->attacked == NULL)
-				{	
+					if(twr[i][j]->attacked == NULL)	
 					for (int k=0;k<10;k++)
 						if (twr[i][j]->detect(enm[k])) 
 							
 							twr[i][j]->attacked = enm[k];
-				}
-				else
-					Shot(twr[i][j]->getx()+range,twr[i][j]->gety()+range,twr[i][j]);
-					//twr[i][j]->attacked->getx(),twr[i][j]->attacked->gety(),twr[i][j]);
-					
-			       }
+							
+					Shot(twr[i][j]);//->attacked->getx(),twr[i][j]->attacked->gety(),twr[i][j]);
 			}
 		 }
+	 }
 		 count2 = 0;
 	}
 	count2++;
 }
+
+
+
+
+
+
 //----------------------------------------------------------------------
 //Рисование врага
 void DrawEnemy()
@@ -241,8 +279,8 @@ int main(int argc, char** argv)
 	InitImages();
     DrawIMG(0,0,back,screen);
     
-	enm[0] = new enemy(-2*range,11*range,alien,screen);
-	enm[1] = new enemy(-1*range,10*range,alien,screen);
+	enm[0] = new enemy((int)(-2*range+(range - alien->w) / 2),(int)(11*range-(range - alien->h) / 2),alien,screen);
+	enm[1] = new enemy((int)(-1*range+(range - alien->w) / 2),(int)(10*range-(range - alien->h) / 2),alien,screen);
 	//enm[2] = new enemy(-3*range,12*range,alien,screen);
 	//enm[3] = new enemy(-4*range,13*range,alien,screen);
 

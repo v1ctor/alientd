@@ -15,6 +15,7 @@ public:
 	int getx(){return x;};
 	int gety(){return y;};
 	void draw();
+	int x_c,y_c;
 protected:
 	int x,y;
 	SDL_Surface *img;
