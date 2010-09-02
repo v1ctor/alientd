@@ -16,6 +16,7 @@ public:
 	count = 0;
 	health = 100;
 	kill = false;
+	price = 50;
 	};
 	~enemy(){};
 	void move();
@@ -23,7 +24,8 @@ public:
 	//int getxprev(){return x_prev;};
 	//int getyprev(){return y_prev;};
 	int count;
-		int health;
+	int health;
+	int price;
 protected:
 	int speed;
 

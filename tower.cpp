@@ -7,13 +7,10 @@
 
 void tower::attack()//enemy *tmp)
 {	
-	if (attacked != NULL)
-	//~ {
-	//~ //printf("%i\n",attacked->health);
-	//~ //attacked->health-=1;
-	if (attacked->kill || !detect(attacked))
-		attacked = NULL;	
-	//~ }
+			//~ DrawIMG(x_bull,y_bull,bullet->h,bullet->w,x_bull,y_bull,back,screen);
+	        //~ DrawIMG(getx(),gety(),towerimg,screen);
+	
+ 
 }
 
 

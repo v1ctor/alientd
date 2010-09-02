@@ -19,6 +19,8 @@ void enemy::move()
     else
     {
 		kill = true;
+		//~ money += price;
+		//~ printf("денег = %i\n",money);
 	}
 		
 		return;

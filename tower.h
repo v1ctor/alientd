@@ -12,14 +12,15 @@ public:
 	{
 		//~ x_c = (int) (x + 0.5 * range);
 		//~ y_c = (int) (y + 0.5 * range);
-		radius = (int) 2*range;// + 0.5 * range;
+		radius = (int) 3*range;// + 0.5 * range;
 		attacked = NULL;
-		speed = 1;
+		speed = 5;
 		x_bull_end = -1;
 		y_bull_end = -1;
 		
 		x_bull = x_c;
 		y_bull = y_c;
+		power = 5;
 	};
 	~tower(){};
 	void attack();//enemy *tmp);//int x, int y);
@@ -27,9 +28,11 @@ public:
 	enemy *attacked;
 	int x_bull,y_bull,x_bull_end,y_bull_end;
 	int radius;
+	int power;
+	int speed;
 protected:
 	 
-	 int speed;
+	 
 	 
 	 
 	 
