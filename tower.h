@@ -13,13 +13,16 @@ public:
 		x_c = (int) (x + 0.5 * range);
 		y_c = (int) (y + 0.5 * range);
 		radius = (int) range + 0.5 * range;
+		attacked = NULL;
 	};
 	~tower(){};
-	void attack();//int x, int y);
+	void attack();//enemy *tmp);//int x, int y);
 	bool detect(enemy *tmp);
+	enemy *attacked;
 protected:
 	 int radius;
 	 int x_c,y_c;
+	 
 	 //int x_prev,y_prev;
 
 

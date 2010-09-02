@@ -4,12 +4,13 @@
 #include "tower.h"
 
 
-enemy *enm[2]={};
+enemy *enm[10]={};
 //tower *twr;
 tower* twr[10][10]= {};
 
 //int money = 500;
 int count = 0;
+int count2 = 0;
 int x_vsp = -1,y_vsp = -1;
 
 //----------------------------------------------------------------------
@@ -66,23 +67,34 @@ void Lighting(int x, int y)
 //Рисование башень
 void DrawTowers()
 {
+	if (count2 == 20)
+	{
 		for (int i = 0; i<10; i++) 
 		{
 			for (int j = 0; j<10; j++) 
 		{
 				if (twr[i][j]!=NULL)
-					//twr[i][j]->draw();
-					if (twr[i][j]->detect(enm[1])) 
-						return;
+					{
+					twr[i][j]->attack();
+					
+					if(twr[i][j]->attacked == NULL)
+					for (int k=0;k<10;k++)
+						if (twr[i][j]->detect(enm[k])) 
+							twr[i][j]->attacked = enm[k];
+				
+			       }
 			}
 		 }
+		 count2 = 0;
 	}
+	count2++;
+}
 //----------------------------------------------------------------------
 //Рисование врага
 void DrawEnemy()
 { 	
 	
-for (int i=0; i<2; i++)
+for (int i=0; i<9; i++)
 { if (enm[i]!=NULL)
 	{
 		
@@ -91,7 +103,7 @@ for (int i=0; i<2; i++)
 	
 	
 	DrawIMG(enm[i]->getx(),enm[i]->gety(),enm[i]->getimg()->h,enm[i]->getimg()->w,enm[i]->getx(),enm[i]->gety(),back,screen);
-	if (x_twr == 9 && y_twr == 0)
+	if (x_twr == 9 && y_twr == 0 || enm[i]->kill)
 		{ enm[i] = NULL;
 			continue;
 		}
@@ -193,6 +205,8 @@ int main(int argc, char** argv)
     
 	enm[0] = new enemy(-2*range,11*range,alien,screen);
 	enm[1] = new enemy(-1*range,10*range,alien,screen);
+	//enm[2] = new enemy(-3*range,12*range,alien,screen);
+	//enm[3] = new enemy(-4*range,13*range,alien,screen);
 
 //----------------------------------------------------------------------
 

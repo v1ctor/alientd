@@ -5,8 +5,15 @@
 
 
 
-void tower::attack()
-{
+void tower::attack()//enemy *tmp)
+{	
+	if (attacked != NULL)
+	{
+	printf("%i\n",attacked->health);
+	attacked->health-=1;
+	if (attacked->kill || !detect(attacked))
+		attacked = NULL;	
+	}
 }
 
 

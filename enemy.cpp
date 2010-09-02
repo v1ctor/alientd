@@ -6,9 +6,20 @@
 
 void enemy::move()
 {
+	
+	
+	if (health>0)
+	{
 		x+=speed;
 		y-=speed;
-		//end = 1;
+	
+	
+    }
+    else
+    {
+		kill = true;
+	}
+		
 		return;
 	
 	}

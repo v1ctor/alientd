@@ -11,19 +11,22 @@ public:
 	{
 	//x_prev = -1;
 	//y_prev = -1;
-	end = 0;
+	//end = 0;
 	speed = 1;
 	count = 0;
+	health = 100;
+	kill = false;
 	};
 	~enemy(){};
 	void move();
-	int end;
+	bool kill;
 	//int getxprev(){return x_prev;};
 	//int getyprev(){return y_prev;};
 	int count;
+		int health;
 protected:
 	int speed;
-	
+
 	//int x_prev;
 	//int y_prev;
 
