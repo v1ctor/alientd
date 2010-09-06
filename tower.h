@@ -12,7 +12,7 @@ public:
 	{
 		//~ x_c = (int) (x + 0.5 * range);
 		//~ y_c = (int) (y + 0.5 * range);
-		radius = (int) 3*range;// + 0.5 * range;
+		radius = (int) 1*range + 0.5 * range;
 		attacked = NULL;
 		speed = 5;
 		x_bull_end = -1;

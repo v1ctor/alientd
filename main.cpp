@@ -2,11 +2,13 @@
 #include "tools.h"
 #include "enemy.h"
 #include "tower.h"
+//~ #include "spisok.h"
+//#include "pathfinder.h"
 
 
 enemy *enm[10]={};
 //tower *twr;
-tower* twr[10][10]= {};
+tower* twr[r_count][r_count]= {};
 
 //int money = 500;
 int count = 0;
@@ -86,8 +88,6 @@ void Shot(tower *tmp)
 	//Отрисовка пули
 	DrawIMG(tmp->x_bull,tmp->y_bull,bullet,screen);
 	
-
-
 }
 }
 
@@ -104,14 +104,6 @@ void Lighting(int x, int y)
 			DrawIMG(x*range,y*range,deny,screen);
 	else
 		    DrawIMG(x*range,y*range,allow,screen);
-			
-			
-			
-			
-	
-	
-	
-	
 	}
 
 
@@ -198,11 +190,19 @@ for (int i=0; i<9; i++)
 	
 	if (enm[i]->count == 16)
 	{ 
-		if(enm[i]->getx() < 9*range && enm[i]->gety() > 0)
-		{
-			enm[i]->move();
-			enm[i]->count = 0;
-		}
+		//if(enm[i]->getx() < 9*range && enm[i]->gety() > 0)
+		//{
+		////~ for (int k = 0; k < r_count; k++)
+		////~ for (int j = 0; j < r_count; j++)
+			////~ if (twr [k][j] != NULL)
+				////~ nodemap[k][j].price = -1;
+			//enm[i]->move();
+			//enm[i]->count = 0;
+		//}
+		
+		
+		enm[i]->move(540,0);
+		enm[i]->count = 0;
 	}
 	
 	enm[i]->draw();
@@ -281,10 +281,45 @@ int main(int argc, char** argv)
 	InitImages();
     DrawIMG(0,0,back,screen);
     
-	enm[0] = new enemy((int)(-2*range+(range - alien->w) / 2),(int)(11*range+(range - alien->h) / 2),alien,screen);
-	enm[1] = new enemy((int)(-1*range+(range - alien->w) / 2),(int)(10*range+(range - alien->h) / 2),alien,screen);
+	enm[0] = new enemy((int)(1*range+(range - alien->w) / 2),(int)(8*range+(range - alien->h) / 2),alien,screen);
+	enm[1] = new enemy((int)(0*range+(range - alien->w) / 2),(int)(9*range+(range - alien->h) / 2),alien,screen);
 	//enm[2] = new enemy(-3*range,12*range,alien,screen);
 	//enm[3] = new enemy(-4*range,13*range,alien,screen);
+	
+	
+	
+//проба списка -------------------------------------------------	
+	//~ node tmp;
+	//~ tmp.F=13;
+	//~ zveno *open;
+		//~ if (empty(open))
+		//~ printf("%s","lol");
+	//~ //open = new zveno();
+	//~ //tmp = new node();
+	//~ //open->inf = tmp;
+//~ 
+	//~ tmp.F=3;
+	//~ tmp.x = 10;
+	//~ tmp.y = 2;
+	//~ open = pushsort(open,tmp);
+	//~ 
+	//~ if (!empty(open))
+		//~ printf("%s","olo");
+	//~ tmp.F=5;
+	//~ open = pushsort(open,tmp);
+	//~ tmp.F=1;
+	//~ open = pushsort(open,tmp);
+	//~ tmp.F=9;
+	//~ open = pushsort(open,tmp);
+	//~ tmp.F=17;
+	//~ open = pushsort(open,tmp);
+	//~ 
+	//~ tmp.x = 9;
+	//~ tmp.y = 2;
+	//~ find(open,tmp);
+	//~ open = pop(open);
+	//~ print(open);
+//проба списка -------------------------------------------------	
 
 //----------------------------------------------------------------------
 

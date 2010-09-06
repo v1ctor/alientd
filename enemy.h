@@ -4,6 +4,7 @@
 #include "go.h"
 
 
+
 class enemy : public go
 {
 public:
@@ -14,12 +15,12 @@ public:
 	//end = 0;
 	speed = 1;
 	count = 0;
-	health = 100;
+	health = 150;
 	kill = false;
 	price = 50;
 	};
 	~enemy(){};
-	void move();
+	void move(int x_f,int y_f);
 	bool kill;
 	//int getxprev(){return x_prev;};
 	//int getyprev(){return y_prev;};
