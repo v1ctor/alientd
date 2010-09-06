@@ -1,17 +1,14 @@
 #include "pathfinder.h"
 #include <stdio.h>
 
-//~ 
-void init(tower *tmp)
-{
-	//printf("%i",tmp[0][0]->getx());
-	//~ for (int i = 0; i < r_count; i++)
-		//~ for (int j = 0; j < r_count; j++)
-			//~ if (tmp[i*r_count+j] != NULL)
-				//~ nodemap[i][j].price = -1;
+void add_tower(int i, int j)
+{		nodemap[i][j] = true;
+}
+
+
+void del_tower(int i, int j)
+{	nodemap[i][j] = false;
 	}
-
-
 
 zveno *get_parth(int x_s, int y_s, int x_f, int y_f)
 {
@@ -58,7 +55,7 @@ zveno *get_parth(int x_s, int y_s, int x_f, int y_f)
 		tmp.x = vsp.x + 1;
 		tmp.y = vsp.y;
 
-		if  (!find(open,tmp))
+		if  (!find(open,tmp) && !nodemap[tmp.x][tmp.y])
 {
 	
 		tmp.parent = new node();
@@ -82,7 +79,7 @@ zveno *get_parth(int x_s, int y_s, int x_f, int y_f)
 		tmp.x = vsp.x - 1;
 		tmp.y = vsp.y;
 		
-		if  (!find(open,tmp))
+		if  (!find(open,tmp) && !nodemap[tmp.x][tmp.y])
 {
 	tmp.parent = new node();
 		*tmp.parent = vsp;
@@ -101,7 +98,7 @@ zveno *get_parth(int x_s, int y_s, int x_f, int y_f)
 		{
 		tmp.x = vsp.x;
 		tmp.y = vsp.y + 1;
-		if  (!find(open,tmp))
+		if  (!find(open,tmp) && !nodemap[tmp.x][tmp.y])
 {
 	    tmp.parent = new node();
 		*tmp.parent = vsp;
@@ -122,7 +119,7 @@ zveno *get_parth(int x_s, int y_s, int x_f, int y_f)
 		{
 		tmp.x = vsp.x;
 		tmp.y = vsp.y - 1;
-		if  (!find(open,tmp))
+		if  (!find(open,tmp) && !nodemap[tmp.x][tmp.y])
 {       tmp.parent = new node();
 		*tmp.parent = vsp;
 

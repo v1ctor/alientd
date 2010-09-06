@@ -3,7 +3,7 @@
 #include "enemy.h"
 #include "tower.h"
 //~ #include "spisok.h"
-//#include "pathfinder.h"
+#include "pathfinder.h"
 
 
 enemy *enm[10]={};
@@ -121,6 +121,10 @@ void DrawTowers()
 			//~ Если башня существует
 				if (twr[i][j]!=NULL)
 					{
+						
+						
+						
+						
 						twr[i][j]->attack();
 						
 						
@@ -210,7 +214,6 @@ void DrawScene(){
 	
 
 	DrawTowers();
-    
     DrawEnemy();
 	SDL_Flip(screen);
 	
@@ -225,6 +228,10 @@ void CreateTower(int x,int y)
 {        DrawIMG(x*range,y*range,range,range,x*range,y*range,back,screen);
 		 twr[x][y] = new tower(x*range,y*range,towerimg,screen);
 	     twr[x][y]->draw();
+	     add_tower(x,y);
+	     for (int i=0; i<9; i++)
+			 if (enm[i]!=NULL)
+					enm[i]->flag = true;
 	     money-=100;
 		 printf("money=%i\n",money);
 	}
@@ -235,6 +242,10 @@ void DeleteTower(int x,int y)
 {
 		DrawIMG(x*range,y*range,range,range,x*range,y*range,back,screen);
 	 	 twr[x][y] = NULL;
+	 	 del_tower(x,y);
+	 	   for (int i=0; i<9; i++)
+			 if (enm[i]!=NULL)
+					enm[i]->flag = true;
 	 	 money+=50;
 	 	 printf("money=%i\n",money);
 	 	// DrawBackground();
@@ -277,40 +288,6 @@ int main(int argc, char** argv)
 	//enm[2] = new enemy(-3*range,12*range,alien,screen);
 	//enm[3] = new enemy(-4*range,13*range,alien,screen);
 	
-	
-	
-//проба списка -------------------------------------------------	
-	//~ node tmp;
-	//~ tmp.F=13;
-	//~ zveno *open;
-		//~ if (empty(open))
-		//~ printf("%s","lol");
-	//~ //open = new zveno();
-	//~ //tmp = new node();
-	//~ //open->inf = tmp;
-//~ 
-	//~ tmp.F=3;
-	//~ tmp.x = 10;
-	//~ tmp.y = 2;
-	//~ open = pushsort(open,tmp);
-	//~ 
-	//~ if (!empty(open))
-		//~ printf("%s","olo");
-	//~ tmp.F=5;
-	//~ open = pushsort(open,tmp);
-	//~ tmp.F=1;
-	//~ open = pushsort(open,tmp);
-	//~ tmp.F=9;
-	//~ open = pushsort(open,tmp);
-	//~ tmp.F=17;
-	//~ open = pushsort(open,tmp);
-	//~ 
-	//~ tmp.x = 9;
-	//~ tmp.y = 2;
-	//~ find(open,tmp);
-	//~ open = pop(open);
-	//~ print(open);
-//проба списка -------------------------------------------------	
 
 //----------------------------------------------------------------------
 
