@@ -190,18 +190,9 @@ for (int i=0; i<9; i++)
 	
 	if (enm[i]->count == 16)
 	{ 
-		//if(enm[i]->getx() < 9*range && enm[i]->gety() > 0)
-		//{
-		////~ for (int k = 0; k < r_count; k++)
-		////~ for (int j = 0; j < r_count; j++)
-			////~ if (twr [k][j] != NULL)
-				////~ nodemap[k][j].price = -1;
-			//enm[i]->move();
-			//enm[i]->count = 0;
-		//}
-		
 		
 		enm[i]->move(540,0);
+
 		enm[i]->count = 0;
 	}
 	

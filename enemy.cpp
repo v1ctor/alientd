@@ -3,8 +3,9 @@
 #include <iostream>
 #include <stdio.h>
 #include "pathfinder.h"
-bool flag = true;
-static zveno *middle;
+
+
+
 void enemy::move(int x_f,int y_f)
 {
 	
@@ -13,25 +14,39 @@ void enemy::move(int x_f,int y_f)
 	
 	if (health>0)
 	{
-		zveno *path;
-	   
+			   
 	    if (flag)
-	    {	
-			path = get_path((int)(x/range),(int)(y/range),(int)(x_f/range),(int)(y_f/range));
-			print(path);
+	    {	printf("%s\n","666");
+			parth = get_parth((int)(x/range),(int)(y/range),(int)(x_f/range),(int)(y_f/range));
+			print(parth);
 			flag = false;
+			parth = pop(parth);
+			middle = parth->inf;
+		    parth = pop(parth);
 		}
-		middle = pop(path);
-	
-		if (x != middle->inf.x && y != middle->inf.y)
+		
+		printf("%i %i %i %i\n",x,y,middle.x*range,middle.y*range);
+		//~ char s[80];
+		//~ gets(&s[0]);
+		
+		if ( abs(x - middle.x*range) >= speed || abs(y - middle.y*range) >= speed)
 		{
-			x+=speed;
-	    	y-=speed;
+			if (x < middle.x*range)
+				x+=speed;
+			if (x > middle.x*range)
+				x-=speed;
+			if (y < middle.y*range)
+				y+=speed;
+			if (y > middle.y*range)
+				y-=speed;
+			//printf("%s\n","3");
 			
 		}
 			else
 		{
-		    middle = pop(path);
+			printf("%s\n","4");
+		    middle = parth->inf;
+		    parth = pop(parth);
 		    
 	    }
 	

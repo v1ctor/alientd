@@ -13,7 +13,7 @@ void init(tower *tmp)
 
 
 
-zveno *get_path(int x_s, int y_s, int x_f, int y_f)
+zveno *get_parth(int x_s, int y_s, int x_f, int y_f)
 {
 	//coords First;
 	
@@ -32,16 +32,17 @@ zveno *get_path(int x_s, int y_s, int x_f, int y_f)
 	//~ вспомогательный узел
 	node vsp = start;
 	
-	//~ добавление в список открытых
+	//~ открытый список и добавление в список открытых
 	zveno *open = new zveno();
 	open->inf = vsp;
 	//print(open);
 	
-	
+	//закрытый список
 	zveno *close = new zveno();
 	close->inf = vsp;
 	open=pop(open);
-	char a[80];
+	
+	//~ цикл главный
 	while ((vsp.x != finish.x || vsp.y != finish.y))// || !empty(open))
 {  
 
@@ -148,14 +149,14 @@ zveno *get_path(int x_s, int y_s, int x_f, int y_f)
 
 		tmp = tmp->parent;
 		parth = push(parth,*tmp);
-		print(parth);		
+		//~ print(parth);		
 		
 	}
 	
 	
-		char s[80];
-		gets(&s[0]);
+		//~ char s[80];
+		//~ gets(&s[0]);
 	
-	printf("%s\n","end");
+	//~ printf("%s\n","end");
 	return parth;
 	}
