@@ -3,7 +3,7 @@
 
 #include "tools.h"
 
-
+static bool start =  false;
 
 
 

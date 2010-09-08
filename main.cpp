@@ -15,6 +15,7 @@ int count = 0;
 int count2 = 0;
 int enm_count;
 int x_vsp = -1,y_vsp = -1;
+bool start = false;
 
 //----------------------------------------------------------------------
 //Загрузка изображений
@@ -268,7 +269,10 @@ void DrawScene(){
 	
 
 	DrawTowers();
-    DrawEnemy();
+	if (start)
+	{
+		DrawEnemy();
+	}
 	SDL_Flip(screen);
 	
 	
@@ -379,8 +383,10 @@ int main(int argc, char** argv)
 				case SDL_MOUSEBUTTONDOWN:
 
 					int x_tmp, y_tmp;
+					
 					x_tmp = (int) event.button.x / range;
 					y_tmp = (int) event.button.y / range;
+					printf ("%i %i\n",x_tmp,y_tmp);
 					if (twr[x_tmp][y_tmp] == NULL &&
 						event.button.x <= 600 && 
 						event.button.button == 1 && 
@@ -390,6 +396,8 @@ int main(int argc, char** argv)
 						event.button.x <= 600 && 
 						event.button.button == 3)
 							DeleteTower(x_tmp,y_tmp);
+					if ( x_tmp > 9 && x_tmp < 14 && y_tmp == 0)
+						start = true;
 				break;
 			
 				//~ движение мыши
