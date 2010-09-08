@@ -3,6 +3,7 @@
 #include <iostream>
 #include <stdio.h>
 #include "pathfinder.h"
+#include "spisok.h"
 
 
 
@@ -16,16 +17,16 @@ void enemy::move(int x_f,int y_f)
 	{
 			   
 	    if (flag)
-	    {	printf("%s\n","666");
+	    {	//printf("%s\n","666");
 			parth = get_parth((int)(x/range),(int)(y/range),(int)(x_f/range),(int)(y_f/range));
-			print(parth);
+			//print(parth);
 			flag = false;
 			parth = pop(parth);
 			middle = parth->inf;
 		    parth = pop(parth);
 		}
 		
-		printf("%i %i %i %i\n",x,y,middle.x*range,middle.y*range);
+		//printf("%i %i %i %i\n",x,y,middle.x*range,middle.y*range);
 		//~ char s[80];
 		//~ gets(&s[0]);
 		
@@ -44,7 +45,7 @@ void enemy::move(int x_f,int y_f)
 		}
 			else
 		{
-			printf("%s\n","4");
+			//printf("%s\n","4");
 		    middle = parth->inf;
 		    parth = pop(parth);
 		    
@@ -54,6 +55,7 @@ void enemy::move(int x_f,int y_f)
     else
     {
 		kill = true;
+		del(parth);
 		//~ money += price;
 		//~ printf("денег = %i\n",money);
 	}

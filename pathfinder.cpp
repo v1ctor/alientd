@@ -14,8 +14,8 @@ zveno *get_parth(int x_s, int y_s, int x_f, int y_f)
 {
 	//coords First;
 	
-	
-	//printf("%i %i %i %i\n",x_s,y_s,x_f,y_f);
+	zveno *parth = new zveno(); 
+//	printf("%i %i %i %i\n",x_s,y_s,x_f,y_f);
 	//стартовый узел
 	node start;
 	start.x = x_s;
@@ -39,8 +39,10 @@ zveno *get_parth(int x_s, int y_s, int x_f, int y_f)
 	close->inf = vsp;
 	open=pop(open);
 	
+	
+
 	//~ цикл главный
-	while ((vsp.x != finish.x || vsp.y != finish.y))// || !empty(open))
+	while ((vsp.x != finish.x || vsp.y != finish.y))// || )
 {  
 
 		node tmp;
@@ -48,15 +50,17 @@ zveno *get_parth(int x_s, int y_s, int x_f, int y_f)
 
 //--------------------------------------------------------------------	
 
-{		
+		
 		if (vsp.x < 9)
 {
 	
 		tmp.x = vsp.x + 1;
 		tmp.y = vsp.y;
 
-		if  (!find(open,tmp) && !nodemap[tmp.x][tmp.y])
-{
+	if  (!find(close,tmp) && !nodemap[tmp.x][tmp.y])
+	{
+		if  (!find(open,tmp))
+		{
 	
 		tmp.parent = new node();
 
@@ -67,18 +71,22 @@ zveno *get_parth(int x_s, int y_s, int x_f, int y_f)
 		tmp.H = abs(finish.x -  tmp.x) + abs(finish.y -  tmp.y);
 		tmp.F = tmp.G + tmp.H;
 		open = pushsort(open,tmp);
-}		}
-
+		//printf("open - > %i %i\n",tmp.x,tmp.y);
+		//delete tmp.parent;
+		}			
+	}
 }
+
 
 //--------------------------------------------------------------------	
 
-{		
+		
 		if (vsp.x > 0)
 		{
 		tmp.x = vsp.x - 1;
 		tmp.y = vsp.y;
-		
+if  (!find(close,tmp))
+	{		
 		if  (!find(open,tmp) && !nodemap[tmp.x][tmp.y])
 {
 	tmp.parent = new node();
@@ -87,17 +95,21 @@ zveno *get_parth(int x_s, int y_s, int x_f, int y_f)
 		tmp.H = abs(finish.x -  tmp.x) + abs(finish.y -  tmp.y);
 		tmp.F = tmp.G + tmp.H;
 		open = pushsort(open,tmp);
+	//	printf("open - > %i %i\n",tmp.x,tmp.y);
+		//delete tmp.parent;
 }		}
 		
 	}
 	
 //--------------------------------------------------------------------		
 
-{	
+	
 		if (vsp.y < 9)
 		{
 		tmp.x = vsp.x;
 		tmp.y = vsp.y + 1;
+		if  (!find(close,tmp))
+	{
 		if  (!find(open,tmp) && !nodemap[tmp.x][tmp.y])
 {
 	    tmp.parent = new node();
@@ -106,19 +118,22 @@ zveno *get_parth(int x_s, int y_s, int x_f, int y_f)
 		tmp.H = abs(finish.x -  tmp.x) + abs(finish.y -  tmp.y);
 		tmp.F = tmp.G + tmp.H;
 		open = pushsort(open,tmp);
-
+		//printf("open - > %i %i\n",tmp.x,tmp.y);
+		//delete tmp.parent;
 }		}
 		
 	}
 		
 //--------------------------------------------------------------------	
 		
-{	
+
 		
 		if (vsp.y > 0)
 		{
 		tmp.x = vsp.x;
 		tmp.y = vsp.y - 1;
+		if  (!find(close,tmp))
+	{
 		if  (!find(open,tmp) && !nodemap[tmp.x][tmp.y])
 {       tmp.parent = new node();
 		*tmp.parent = vsp;
@@ -127,16 +142,38 @@ zveno *get_parth(int x_s, int y_s, int x_f, int y_f)
 		tmp.H = abs(finish.x -  tmp.x) + abs(finish.y -  tmp.y);
 		tmp.F = tmp.G + tmp.H;
 		open = pushsort(open,tmp);
-
+		//printf("open - > %i %i\n",tmp.x,tmp.y);
+		//delete tmp.parent;
 }		}
 }
 
 		vsp = open->inf;
-		open=pop(open);
 		close = push(close,vsp);
+		open=pop(open);
+		
+		
+		//printf("close - > %i %i %i\n",vsp.x,vsp.y,vsp.F);
+		//~ printf("%s\n","----------------------------");
+		//~ print (open);
+		//~ printf("%s\n","----------------------------");
+		//~ print (close);
+		//~ printf("%s\n","----------------------------");
+		
+		//~ if
+		 if(open == NULL && (vsp.x != finish.x || vsp.y != finish.y))
+		{
+			//printf("%s\n","path not found");
+			//~ char s[80];
+		    //~ gets(&s[0]);
+			//del(open);
+			//del(close);
+			return NULL;
+		}
+		
+		//delete tmp.parent;
 }
 	
-	zveno *parth = new zveno(); 
+	
 	node *tmp;
 	tmp = &vsp;
 	parth->inf = *tmp;
@@ -151,9 +188,15 @@ zveno *get_parth(int x_s, int y_s, int x_f, int y_f)
 	}
 	
 	
+	delete tmp;
+	del(open);
+	del(close);
+	//~ print(open);
+	//~ print(close);
+	//~ 
 		//~ char s[80];
 		//~ gets(&s[0]);
-	
+	//~ 
 	//~ printf("%s\n","end");
 	return parth;
 	}

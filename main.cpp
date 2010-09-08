@@ -42,6 +42,33 @@ void InitImages()
 
 	return;
 	}
+	
+	
+	
+	
+bool CheckParth()
+{
+	zveno *tmp;
+	for (int i=0; i<9; i++)
+		if (enm[i] != NULL)
+		{	
+			tmp = get_parth((int)(enm[i]->getx()/range),(int)(enm[i]->gety()/range),9,0);
+				//printf("%s\n","check parth");
+			if (tmp == NULL)	
+				{	del(tmp);
+					//printf("%s\n","not tower");
+						//~ char s[80];
+		             //~ gets(&s[0]);
+					return false;}
+	     }
+	delete tmp;	
+ //printf("%s\n","yes tower");
+	return true;
+}
+	
+	
+	
+	
 
 void Shot(tower *tmp)
 {
@@ -99,11 +126,14 @@ return;
 //Индикация
 void Lighting(int x, int y)
 {
+	//add_tower(x,y);		
+	if (twr[x][y]==NULL && money < 100)// || !CheckParth())	
 	
-	if (twr[x][y]==NULL && money < 100)	
 			DrawIMG(x*range,y*range,deny,screen);
+	
 	else
 		    DrawIMG(x*range,y*range,allow,screen);
+	//del_tower(x,y);
 	}
 
 
@@ -225,10 +255,14 @@ void DrawScene(){
 //----------------------------------------------------------------------
 //Создание башни
 void CreateTower(int x,int y)
-{        DrawIMG(x*range,y*range,range,range,x*range,y*range,back,screen);
+ {		 add_tower(x,y);
+	     if (!CheckParth())
+			{del_tower(x,y);
+			 return;}
+         DrawIMG(x*range,y*range,range,range,x*range,y*range,back,screen);
 		 twr[x][y] = new tower(x*range,y*range,towerimg,screen);
 	     twr[x][y]->draw();
-	     add_tower(x,y);
+	     
 	     for (int i=0; i<9; i++)
 			 if (enm[i]!=NULL)
 					enm[i]->flag = true;

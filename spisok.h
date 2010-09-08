@@ -27,6 +27,7 @@ void print(zveno *first);
 bool find(zveno *first, node input);
 bool empty(zveno *first);
 node get_node(zveno *first);
+void del(zveno *first);
 
 
 #endif
