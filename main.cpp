@@ -6,13 +6,14 @@
 #include "pathfinder.h"
 
 
-enemy *enm;
+enemy *enm[10]={};
 //tower *twr;
 tower* twr[r_count][r_count]= {};
 
 //int money = 500;
 int count = 0;
 int count2 = 0;
+int enm_count;
 int x_vsp = -1,y_vsp = -1;
 
 //----------------------------------------------------------------------
@@ -44,7 +45,15 @@ void InitImages()
 	}
 	
 	
+void CreateEnemy()
+{
+	if (enm_count < 10 && enm_count != 0 && (int)(enm[enm_count-1]->getx()/range) > 0)// || (int)(enm[enm_count-1]->gety()/range)) < 9)
+	{
+	enm[enm_count] = new enemy((int)(0*range+(range - alien->w) / 2),(int)(9*range+(range - alien->h) / 2),alien,screen);
+	enm_count++;
+}
 	
+	}	
 	
 bool CheckParth()
 {
@@ -208,6 +217,7 @@ for (int i=0; i<9; i++)
 		{ 	
 			enm[i]->kill = true;
 			enm[i] = NULL;
+			enm_count --;
 			continue;
 		}
 	
@@ -226,6 +236,7 @@ for (int i=0; i<9; i++)
 	{ 
 		
 		enm[i]->move(540,0);
+		CreateEnemy();
 
 		enm[i]->count = 0;
 	}
@@ -317,8 +328,10 @@ int main(int argc, char** argv)
 	InitImages();
     DrawIMG(0,0,back,screen);
     
-	enm[0] = new enemy((int)(1*range+(range - alien->w) / 2),(int)(8*range+(range - alien->h) / 2),alien,screen);
-	enm[1] = new enemy((int)(0*range+(range - alien->w) / 2),(int)(9*range+(range - alien->h) / 2),alien,screen);
+	enm[0] = new enemy((int)(0*range+(range - alien->w) / 2),(int)(9*range+(range - alien->h) / 2),alien,screen);
+	//enm[1] = new enemy((int)(0*range+(range - alien->w) / 2),(int)(9*range+(range - alien->h) / 2),alien,screen);
+	enm_count = 1;
+	
 	//enm[2] = new enemy(-3*range,12*range,alien,screen);
 	//enm[3] = new enemy(-4*range,13*range,alien,screen);
 	
