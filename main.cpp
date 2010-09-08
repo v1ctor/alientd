@@ -6,7 +6,7 @@
 #include "pathfinder.h"
 
 
-enemy *enm[10]={};
+enemy *enm;
 //tower *twr;
 tower* twr[r_count][r_count]= {};
 
