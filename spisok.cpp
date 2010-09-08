@@ -90,7 +90,7 @@ void print(zveno *first)
 			   vsp=vsp->next;
 			   //printf("%s\n","----------------------------");
 			  }
-			  printf("%s\n","----------------------------");
+			  printf("%s\n","end------------------------------");
 }
 
 bool find(zveno *first, node input)

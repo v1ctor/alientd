@@ -15,7 +15,7 @@ zveno *get_parth(int x_s, int y_s, int x_f, int y_f)
 	//coords First;
 	
 	zveno *parth = new zveno(); 
-//	printf("%i %i %i %i\n",x_s,y_s,x_f,y_f);
+	//~ printf("get_parth = %i %i %i %i\n",x_s,y_s,x_f,y_f);
 	//стартовый узел
 	node start;
 	start.x = x_s;
@@ -48,7 +48,7 @@ zveno *get_parth(int x_s, int y_s, int x_f, int y_f)
 		node tmp;
 
 
-//--------------------------------------------------------------------	
+//----горизонтали ++ ----------------------------------------------	
 
 		
 		if (vsp.x < 9)
@@ -78,7 +78,7 @@ zveno *get_parth(int x_s, int y_s, int x_f, int y_f)
 }
 
 
-//--------------------------------------------------------------------	
+//-------горизонтали -- ----------------------------------------------	
 
 		
 		if (vsp.x > 0)
@@ -101,7 +101,7 @@ if  (!find(close,tmp))
 		
 	}
 	
-//--------------------------------------------------------------------		
+//-------вертикали -- ------------------------------------------------		
 
 	
 		if (vsp.y < 9)
@@ -124,7 +124,7 @@ if  (!find(close,tmp))
 		
 	}
 		
-//--------------------------------------------------------------------	
+//---------вертикали ++ -------------------------------------------	
 		
 
 		
@@ -147,15 +147,127 @@ if  (!find(close,tmp))
 }		}
 }
 
-		vsp = open->inf;
-		close = push(close,vsp);
-		open=pop(open);
+
+
+//----диагонали x+ y- -------------------------------------	
+
+		
+		if (vsp.x < 9 && vsp.y > 0)
+{
+	
+		tmp.x = vsp.x + 1;
+		tmp.y = vsp.y - 1;
+	if  (!find(close,tmp) && !nodemap[tmp.x][tmp.y])
+	if (tmp.y < 9 && !nodemap[tmp.x][tmp.y + 1])
+	if (tmp.x > 0 && !nodemap[tmp.x - 1][tmp.y])
+	{
+		if  (!find(open,tmp))
+		{
+	
+		tmp.parent = new node();
+		*tmp.parent = vsp;		
+		tmp.G = tmp.parent->G + 1;
+		tmp.H = abs(finish.x -  tmp.x) + abs(finish.y -  tmp.y);
+		tmp.F = tmp.G + tmp.H;
+		open = pushsort(open,tmp);
+		//printf("open - > %i %i\n",tmp.x,tmp.y);
+		//delete tmp.parent;
+		}			
+	}
+}
+
+
+//-------диагонали x- y- ----------------------------------------------	
+
+		
+		if (vsp.x > 0 && vsp.y > 0)
+		{
+		tmp.x = vsp.x - 1;
+		tmp.y = vsp.y - 1;
+if  (!find(close,tmp))
+	{		
+		
+		if  (!find(open,tmp) && !nodemap[tmp.x][tmp.y])		
+		if (tmp.x < 9 && !nodemap[tmp.x + 1][tmp.y])
+		if (tmp.y < 9 && !nodemap[tmp.x][tmp.y + 1])
+{
+	tmp.parent = new node();
+		*tmp.parent = vsp;
+		tmp.G = tmp.parent->G + 1;
+		tmp.H = abs(finish.x -  tmp.x) + abs(finish.y -  tmp.y);
+		tmp.F = tmp.G + tmp.H;
+		open = pushsort(open,tmp);
+	//	printf("open - > %i %i\n",tmp.x,tmp.y);
+		//delete tmp.parent;
+}		}
+		
+	}
+	
+//-------диагонали x+ y+  ------------------------------------------------		
+
+	
+		if (vsp.x < 9 && vsp.y < 9)
+		{
+		tmp.x = vsp.x + 1;
+		tmp.y = vsp.y + 1;
+		if  (!find(close,tmp))
+	{
+		
+		
+		if (tmp.x > 0 && !nodemap[tmp.x - 1][tmp.y])
+		if (tmp.y > 0 && !nodemap[tmp.x][tmp.y - 1])
+		if  (!find(open,tmp) && !nodemap[tmp.x][tmp.y]
+			
+			)
+{
+	    tmp.parent = new node();
+		*tmp.parent = vsp;
+		tmp.G = tmp.parent->G + 1;
+		tmp.H = abs(finish.x -  tmp.x) + abs(finish.y -  tmp.y);
+		tmp.F = tmp.G + tmp.H;
+		open = pushsort(open,tmp);
+		//printf("open - > %i %i\n",tmp.x,tmp.y);
+		//delete tmp.parent;
+}		}
+		
+	}
+		
+//---------диагонали х- у+ -------------------------------------------	
+		
+
+		
+		if (vsp.x > 0 && vsp.y < 9 )
+		{
+		tmp.x = vsp.x - 1;
+		tmp.y = vsp.y + 1;
+		if  (!find(close,tmp))
+	{
+		
+		if (tmp.x < 9 && !nodemap[tmp.x][tmp.y - 1] )
+		if (tmp.y > 0 && !nodemap[tmp.x + 1][tmp.y])
+		if  (!find(open,tmp) && !nodemap[tmp.x][tmp.y])
+		
+		
+		
+{       tmp.parent = new node();
+		*tmp.parent = vsp;
+
+		tmp.G = tmp.parent->G + 1;
+		tmp.H = abs(finish.x -  tmp.x) + abs(finish.y -  tmp.y);
+		tmp.F = tmp.G + tmp.H;
+		open = pushsort(open,tmp);
+		//printf("open - > %i %i\n",tmp.x,tmp.y);
+		//delete tmp.parent;
+}		}
+}
+
+		
 		
 		
 		//printf("close - > %i %i %i\n",vsp.x,vsp.y,vsp.F);
-		//~ printf("%s\n","----------------------------");
+		//~ printf("%s\n","open----------------------------");
 		//~ print (open);
-		//~ printf("%s\n","----------------------------");
+		//~ printf("%s\n","close---------------------------");
 		//~ print (close);
 		//~ printf("%s\n","----------------------------");
 		
@@ -165,10 +277,14 @@ if  (!find(close,tmp))
 			//printf("%s\n","path not found");
 			//~ char s[80];
 		    //~ gets(&s[0]);
-			//del(open);
-			//del(close);
+			del(open);
+			del(close);
 			return NULL;
 		}
+		
+		vsp = open->inf;
+		close = push(close,vsp);
+		open=pop(open);
 		
 		//delete tmp.parent;
 }

@@ -47,7 +47,10 @@ void InitImages()
 	
 void CreateEnemy()
 {
-	if (enm_count < 10 && enm_count != 0 && (int)(enm[enm_count-1]->getx()/range) > 0)// || (int)(enm[enm_count-1]->gety()/range)) < 9)
+	if (enm_count < 10 && enm_count != 0 && 
+	(	(int)(enm[enm_count-1]->getx()/range) > 0 || 
+		(int)(enm[enm_count-1]->gety()/range) < 8)
+	)
 	{
 	enm[enm_count] = new enemy((int)(0*range+(range - alien->w) / 2),(int)(9*range+(range - alien->h) / 2),alien,screen);
 	enm_count++;
@@ -62,16 +65,24 @@ bool CheckParth()
 		if (enm[i] != NULL)
 		{	
 			tmp = get_parth((int)(enm[i]->getx()/range),(int)(enm[i]->gety()/range),9,0);
-				//printf("%s\n","check parth");
+				//~ printf("%s\n","check parth");
 			if (tmp == NULL)	
 				{	del(tmp);
-					//printf("%s\n","not tower");
+					printf("%s\n","not tower");
 						//~ char s[80];
 		             //~ gets(&s[0]);
 					return false;}
 	     }
+	     tmp = get_parth(0,9,9,0);
+				//~ printf("%s\n","check parth");
+			if (tmp == NULL)	
+				{	del(tmp);
+					printf("%s\n","not tower");
+						//~ char s[80];
+		             //~ gets(&s[0]);
+					return false;}
 	delete tmp;	
- //printf("%s\n","yes tower");
+// printf("%s\n","yes tower");
 	return true;
 }
 	
@@ -134,15 +145,17 @@ return;
 //----------------------------------------------------------------------
 //Индикация
 void Lighting(int x, int y)
-{
+{	
 	//add_tower(x,y);		
-	if (twr[x][y]==NULL && money < 100)// || !CheckParth())	
-	
+	if (/*!CheckParth() || */(twr[x][y]==NULL && money < 100))	
+			{
+			//del_tower(x,y);
 			DrawIMG(x*range,y*range,deny,screen);
+		}
 	
 	else
 		    DrawIMG(x*range,y*range,allow,screen);
-	//del_tower(x,y);
+	
 	}
 
 
