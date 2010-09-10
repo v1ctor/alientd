@@ -4,13 +4,15 @@
 
 
 #include "SDL.h"
+#include "SDL_ttf.h"
+#include "SDL_image.h"
 #include "go.h"
 #include <iostream>
 #include <stdio.h>
 #include <math.h>
 
-static SDL_Surface *screen, *back, *alien, *towerimg, *bullet, *allow, *deny;
-static int money = 500;
+static SDL_Surface *screen, *back, *alien, *towerimg, *bullet, *allow, *deny, *startimg, *menu;
+static int money = 5000;
 static const int range = 60;
 static const int r_count = 10;
 

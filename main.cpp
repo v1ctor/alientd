@@ -4,7 +4,7 @@
 #include "tower.h"
 //~ #include "spisok.h"
 #include "pathfinder.h"
-
+//#include <stdlib.h>
 
 enemy *enm[10]={};
 //tower *twr;
@@ -16,20 +16,40 @@ int count2 = 0;
 int enm_count;
 int x_vsp = -1,y_vsp = -1;
 bool start = false;
+SDL_Color clr;// = {255,255,255,0};
+SDL_Rect dest;// = {620, 0,0,0};
+char* fontname = "font/seed_cyr_medim.ttf";
+
+void print_ttf(SDL_Surface *sDest, char* message, char* font, int size, SDL_Color color, SDL_Rect dest){
+
+ TTF_Font *fnt = TTF_OpenFont(font, size);
+ if(!fnt)
+    printf("TTF_OpenFont: %s\n", TTF_GetError());
+ SDL_Surface *sText = TTF_RenderText_Blended( fnt, message, color);
+ SDL_BlitSurface( sText,NULL, sDest,&dest );
+ SDL_FreeSurface( sText );
+ TTF_CloseFont( fnt );
+
+}
+
+
 
 //----------------------------------------------------------------------
 //Загрузка изображений
 void InitImages()
 {
 	//SDL_Surface *tmp;
-	back = SDL_LoadBMP("img/back.bmp");
+	back = SDL_LoadBMP("img/background.bmp");
 	back = SDL_DisplayFormat(back);	
+	
+	menu = SDL_LoadBMP("img/menu.bmp");
+	menu = SDL_DisplayFormat(menu);	
 
 	
 	towerimg = SDL_LoadBMP("img/tower.bmp");
 	towerimg = SDL_DisplayFormat(towerimg);
 	
-	alien = SDL_LoadBMP("img/zerg.bmp");
+	alien = SDL_LoadBMP("img/ufo.bmp");
 	alien = SDL_DisplayFormat(alien);
 	
 	allow = SDL_LoadBMP("img/allow.bmp");
@@ -41,7 +61,6 @@ void InitImages()
 	bullet = SDL_LoadBMP("img/bullet.bmp");
 	bullet = SDL_DisplayFormat(bullet);
 	
-
 	return;
 	}
 	
@@ -87,7 +106,28 @@ bool CheckParth()
 	return true;
 }
 	
+void CheckMoney()
+{		
 	
+		
+	
+		clr = {0,255,240,0};
+		dest = {620, 60,0,0};
+		
+		DrawIMG(dest.x - 20 ,dest.y,200,22,0,0,menu,screen);
+		
+		print_ttf(screen, "Money:" , fontname, 20, clr, dest);
+		dest = {700, 60,0,0};
+
+		
+		char* buff = new char();
+		sprintf(buff, "%i", money);
+		print_ttf(screen, buff, fontname, 20, clr, dest);
+		//printf("money= %i %s\n", money, buff);
+		delete buff;
+	
+	
+	}
 	
 	
 
@@ -116,6 +156,10 @@ void Shot(tower *tmp)
 		 // printf("%i %i,",tmp->x_bull,tmp->y_bull);
 		 tmp->attacked->health -= tmp->power;
 		 money+=5;
+		 
+		 CheckMoney();
+		 
+		 
 		 tmp->x_bull=tmp->x_c;
 		 tmp->y_bull=tmp->y_c;		 
 		 return;
@@ -267,7 +311,6 @@ return;
 
 void DrawScene(){
 	
-
 	DrawTowers();
 	if (start)
 	{
@@ -295,7 +338,7 @@ void CreateTower(int x,int y)
 			 if (enm[i]!=NULL)
 					enm[i]->flag = true;
 	     money-=100;
-		 printf("money=%i\n",money);
+CheckMoney();
 	}
 	
 //----------------------------------------------------------------------
@@ -308,13 +351,26 @@ void DeleteTower(int x,int y)
 	 	   for (int i=0; i<9; i++)
 			 if (enm[i]!=NULL)
 					enm[i]->flag = true;
+			
 	 	 money+=50;
-	 	 printf("money=%i\n",money);
-	 	// DrawBackground();
-	//DrawTowers();
-	     
+	 	
+CheckMoney();
+	}
+	
+
+	
+	
+void end()
+{
+		
+
+TTF_Quit();
+SDL_Quit();
+	
 	
 	}
+	
+	
 	
 	
 	
@@ -329,10 +385,24 @@ int main(int argc, char** argv)
 			printf("Error");
 			exit(1);	
 		}
+	 	
+
+	if(TTF_Init()==-1) {
+		printf("TTF_Init: %s\n", TTF_GetError());
+		exit(2);
+	}
 	
-	atexit(SDL_Quit);
 	
-	SDL_WM_SetCaption("ATA","ata");
+	//~ font=TTF_OpenFont("font/seed_cyr_medium.ttf", 16);
+	//~ if(!font) {
+    //~ printf("TTF_OpenFont: %s\n", TTF_GetError());
+    //~ // handle error
+//~ }
+
+
+	atexit(end);
+	
+	SDL_WM_SetCaption("AlienTD","AlienTD");
 	screen = SDL_SetVideoMode(800,600,32,SDL_HWSURFACE|SDL_DOUBLEBUF);
 	if (screen == NULL)
 		{
@@ -344,10 +414,13 @@ int main(int argc, char** argv)
 //Иниацилизация игровых объектов	
 	InitImages();
     DrawIMG(0,0,back,screen);
-    
-	enm[0] = new enemy((int)(0*range+(range - alien->w) / 2),(int)(9*range+(range - alien->h) / 2),alien,screen);
+    DrawIMG(600,0,menu,screen);
+	clr = {255,255,255,0};
+	dest = {620, 0,0,0};
+	print_ttf(screen, "START" , fontname, 60, clr, dest);
+	CheckMoney();
+
 	//enm[1] = new enemy((int)(0*range+(range - alien->w) / 2),(int)(9*range+(range - alien->h) / 2),alien,screen);
-	enm_count = 1;
 	
 	//enm[2] = new enemy(-3*range,12*range,alien,screen);
 	//enm[3] = new enemy(-4*range,13*range,alien,screen);
@@ -386,7 +459,7 @@ int main(int argc, char** argv)
 					
 					x_tmp = (int) event.button.x / range;
 					y_tmp = (int) event.button.y / range;
-					printf ("%i %i\n",x_tmp,y_tmp);
+				//	printf ("%i %i\n",x_tmp,y_tmp);
 					if (twr[x_tmp][y_tmp] == NULL &&
 						event.button.x <= 600 && 
 						event.button.button == 1 && 
@@ -396,8 +469,12 @@ int main(int argc, char** argv)
 						event.button.x <= 600 && 
 						event.button.button == 3)
 							DeleteTower(x_tmp,y_tmp);
-					if ( x_tmp > 9 && x_tmp < 14 && y_tmp == 0)
+					if (!start && x_tmp > 9 && x_tmp < 14 && y_tmp == 0)
+						{	
 						start = true;
+						enm[0] = new enemy((int)(0*range+(range - alien->w) / 2),(int)(9*range+(range - alien->h) / 2),alien,screen);
+						enm_count = 1;
+						}
 				break;
 			
 				//~ движение мыши

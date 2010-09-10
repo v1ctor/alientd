@@ -266,7 +266,7 @@ if  (!find(close,tmp))
 		
 		//printf("close - > %i %i %i\n",vsp.x,vsp.y,vsp.F);
 		//~ printf("%s\n","open----------------------------");
-		//~ print (open);
+		// print (open);
 		//~ printf("%s\n","close---------------------------");
 		//~ print (close);
 		//~ printf("%s\n","----------------------------");

@@ -86,7 +86,7 @@ void print(zveno *first)
 	vsp=first;
 	while (vsp != NULL)
            {	printf("%s\n","----------------------------");
-			   printf("x,y = %i %i \n",vsp->inf.x,vsp->inf.y);//,vsp->inf.parent->x,vsp->inf.parent->y); 
+			   printf("x,y,F = %i %i %i\n",vsp->inf.x,vsp->inf.y,vsp->inf.F);//,vsp->inf.parent->x,vsp->inf.parent->y); 
 			   vsp=vsp->next;
 			   //printf("%s\n","----------------------------");
 			  }
