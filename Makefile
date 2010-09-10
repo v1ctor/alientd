@@ -1,6 +1,6 @@
 TARGET = alientd
 LIBS = `sdl-config --libs` -lSDL_ttf -lSDL_image
-CFLAGS = -O2 -ggdb -pedantic `sdl-config --cflags`
+CFLAGS = -O2 -ggdb `sdl-config --cflags`
 CC = g++
 
 

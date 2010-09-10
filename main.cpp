@@ -39,26 +39,26 @@ void print_ttf(SDL_Surface *sDest, char* message, char* font, int size, SDL_Colo
 void InitImages()
 {
 	//SDL_Surface *tmp;
-	back = SDL_LoadBMP("img/background.bmp");
+	back = IMG_Load("img/background.png");
 	back = SDL_DisplayFormat(back);	
 	
-	menu = SDL_LoadBMP("img/menu.bmp");
+	menu = IMG_Load("img/menu.png");
 	menu = SDL_DisplayFormat(menu);	
 
 	
-	towerimg = SDL_LoadBMP("img/tower.bmp");
+	towerimg = IMG_Load("img/tower.png");
 	towerimg = SDL_DisplayFormat(towerimg);
 	
-	alien = SDL_LoadBMP("img/ufo.bmp");
+	alien = IMG_Load("img/ufo.png");
 	alien = SDL_DisplayFormat(alien);
 	
-	allow = SDL_LoadBMP("img/allow.bmp");
+	allow = IMG_Load("img/allow.png");
 	allow = SDL_DisplayFormat(allow);
 	
-	deny = SDL_LoadBMP("img/deny.bmp");
+	deny = IMG_Load("img/deny.png");
 	deny = SDL_DisplayFormat(deny);
 	
-	bullet = SDL_LoadBMP("img/bullet.bmp");
+	bullet = IMG_Load("img/bullet.png");
 	bullet = SDL_DisplayFormat(bullet);
 	
 	return;
@@ -85,32 +85,20 @@ bool CheckParth()
 		if (enm[i] != NULL)
 		{	
 			tmp = get_parth((int)(enm[i]->getx()/range),(int)(enm[i]->gety()/range),9,0);
-				//~ printf("%s\n","check parth");
 			if (tmp == NULL)	
 				{	del(tmp);
-					printf("%s\n","not tower");
-						//~ char s[80];
-		             //~ gets(&s[0]);
 					return false;}
 	     }
 	     tmp = get_parth(0,9,9,0);
-				//~ printf("%s\n","check parth");
 			if (tmp == NULL)	
 				{	del(tmp);
-					printf("%s\n","not tower");
-						//~ char s[80];
-		             //~ gets(&s[0]);
 					return false;}
 	delete tmp;	
-// printf("%s\n","yes tower");
 	return true;
 }
 	
 void CheckMoney()
-{		
-	
-		
-	
+{	
 		clr = {0,255,240,0};
 		dest = {620, 60,0,0};
 		
@@ -123,10 +111,7 @@ void CheckMoney()
 		char* buff = new char();
 		sprintf(buff, "%i", money);
 		print_ttf(screen, buff, fontname, 20, clr, dest);
-		//printf("money= %i %s\n", money, buff);
 		delete buff;
-	
-	
 	}
 	
 	
@@ -366,7 +351,7 @@ void end()
 
 TTF_Quit();
 SDL_Quit();
-	
+IMG_Quit();
 	
 	}
 	
@@ -392,15 +377,14 @@ int main(int argc, char** argv)
 		exit(2);
 	}
 	
-	
-	//~ font=TTF_OpenFont("font/seed_cyr_medium.ttf", 16);
-	//~ if(!font) {
-    //~ printf("TTF_OpenFont: %s\n", TTF_GetError());
-    //~ // handle error
-//~ }
+	int flags=IMG_INIT_JPG|IMG_INIT_PNG;
+	int initted=IMG_Init(flags);
+	if(initted&flags != flags) 
+		{
+		printf("IMG_Init: Failed to init required jpg and png support!\n");
+		printf("IMG_Init: %s\n", IMG_GetError());
+		}
 
-
-	atexit(end);
 	
 	SDL_WM_SetCaption("AlienTD","AlienTD");
 	screen = SDL_SetVideoMode(800,600,32,SDL_HWSURFACE|SDL_DOUBLEBUF);
@@ -409,6 +393,7 @@ int main(int argc, char** argv)
 			printf("Error");
 			exit(1);				
 		}
+	//SDL_WM_ToggleFullScreen (screen);
 //----------------------------------------------------------------------		
 	
 //Иниацилизация игровых объектов	
