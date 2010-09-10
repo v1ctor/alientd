@@ -2,11 +2,12 @@
 #include "tools.h"
 #include "enemy.h"
 #include "tower.h"
-//~ #include "spisok.h"
+#include "spisok.h"
 #include "pathfinder.h"
-//#include <stdlib.h>
+
 
 enemy *enm[10]={};
+zveno *ufo;
 //tower *twr;
 tower* twr[r_count][r_count]= {};
 
@@ -405,11 +406,6 @@ int main(int argc, char** argv)
 	print_ttf(screen, "START" , fontname, 60, clr, dest);
 	CheckMoney();
 
-	//enm[1] = new enemy((int)(0*range+(range - alien->w) / 2),(int)(9*range+(range - alien->h) / 2),alien,screen);
-	
-	//enm[2] = new enemy(-3*range,12*range,alien,screen);
-	//enm[3] = new enemy(-4*range,13*range,alien,screen);
-	
 
 //----------------------------------------------------------------------
 
