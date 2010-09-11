@@ -1,0 +1,34 @@
+Alien TD (Alien Tower Defense)
+
+Copyright 2010 Victor Buldakov <v1ctor.buldakov@gmail.com>
+Copyright 2010 Reslayer <Reslayer@mail.ru>
+
+This game is based on 
+SDL is Copyright 1997 Sam Lantinga, and is distributed under the GPL.
+
+--------
+Описание
+--------
+Alien TD - это аркадная игра жанра Tower Defense.
+Распространяется под лицензией GPL v2 или выше
+
+--------
+Описание
+--------
+Зависимости:
+libsdl >= 1.2
+libsdl-ttf >= 2.0
+libsdl-image >= 2.0
+
+
+-----------------------
+Сборка и установка
+-----------------------
+
+0. Скачиваем архив alientd-xx-yy.tar.gz
+1. tar -xvf alientd-xx-yy.tar.gz
+2. cd alientd-xx-yy
+3. make
+4. ./alientd
+5. Наслаждаемся
+
