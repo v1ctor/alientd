@@ -4,6 +4,22 @@
 #include "go.h"
 #include "spisok.h"
 
+	struct node
+{	int G;
+	int H;
+	int F; //= H + G;
+	int x;
+	int y;
+	node *parent;
+};
+	
+	
+	
+struct zveno
+{
+	node inf;
+	zveno *next;
+};
 
 class enemy : public go
 {
