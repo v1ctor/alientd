@@ -1,27 +1,18 @@
 #ifndef SPISOK_H
 #define SPISOK_H
 
-#include <iostream>
-#include <stdio.h>
+//#include "tools.h"
+#include "enemy.h"
 
 
-	struct node
-{	int G;
-	int H;
-	int F; //= H + G;
-	int x;
-	int y;
-	node *parent;
-};
-	
-	
-	
-struct zveno
+struct quine
 {
-	node inf;
-	zveno *next;
+	enemy *inf;
+	quine *next;
+	quine *prev;
 	//zveno *prev;
 };
+
 
 template <class E> bool empty(E *first)
 {

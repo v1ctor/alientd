@@ -2,8 +2,24 @@
 #define ENEMY_H
 
 #include "go.h"
-#include "spisok.h"
-
+//#include "spisok.h"
+	struct node
+{	int G;
+	int H;
+	int F; //= H + G;
+	int x;
+	int y;
+	node *parent;
+};
+	
+	
+	
+struct zveno
+{
+	node inf;
+	zveno *next;
+	//zveno *prev;
+};
 
 class enemy : public go
 {

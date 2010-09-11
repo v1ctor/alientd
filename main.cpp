@@ -2,18 +2,19 @@
 #include "tools.h"
 #include "enemy.h"
 #include "tower.h"
-//~ #include "spisok.h"
+#include "spisok.h"
 #include "pathfinder.h"
 //#include <stdlib.h>
 
-enemy *enm[10]={};
+//enemy *enm[10]={};
 //tower *twr;
+quine *ufo;
 tower* twr[r_count][r_count]= {};
 
 //int money = 500;
 int count = 0;
 int count2 = 0;
-int enm_count;
+//int enm_count;
 int x_vsp = -1,y_vsp = -1;
 bool start = false;
 SDL_Color clr;// = {255,255,255,0};
@@ -65,38 +66,38 @@ void InitImages()
 	}
 	
 	
-void CreateEnemy()
-{
-	if (enm_count < 10 && enm_count != 0 && 
-	(	(int)(enm[enm_count-1]->getx()/range) > 0 || 
-		(int)(enm[enm_count-1]->gety()/range) < 8)
-	)
-	{
-	enm[enm_count] = new enemy((int)(0*range+(range - alien->w) / 2),(int)(9*range+(range - alien->h) / 2),alien,screen);
-	enm_count++;
-}
+//~ void CreateEnemy()
+//~ {
+	//~ if (enm_count < 10 && enm_count != 0 && 
+	//~ (	(int)(enm[enm_count-1]->getx()/range) > 0 || 
+		//~ (int)(enm[enm_count-1]->gety()/range) < 8)
+	//~ )
+	//~ {
+	//~ enm[enm_count] = new enemy((int)(0*range+(range - alien->w) / 2),(int)(9*range+(range - alien->h) / 2),alien,screen);
+	//~ enm_count++;
+//~ }
+	//~ 
+	//~ }	
 	
-	}	
-	
-bool CheckParth()
-{
-	zveno *tmp;
-	for (int i=0; i<9; i++)
-		if (enm[i] != NULL)
-		{	
-			tmp = get_parth((int)(enm[i]->getx()/range),(int)(enm[i]->gety()/range),9,0);
-			if (tmp == NULL)	
-				{	del(tmp);
-					return false;}
-	     }
-	     tmp = get_parth(0,9,9,0);
-			if (tmp == NULL)	
-				{	del(tmp);
-					return false;}
-	delete tmp;	
-	return true;
-}
-	
+//~ bool CheckParth()
+//~ {
+	//~ zveno *tmp;
+	//~ for (int i=0; i<9; i++)
+		//~ if (enm[i] != NULL)
+		//~ {	
+			//~ tmp = get_parth((int)(enm[i]->getx()/range),(int)(enm[i]->gety()/range),9,0);
+			//~ if (tmp == NULL)	
+				//~ {	del(tmp);
+					//~ return false;}
+	     //~ }
+	     //~ tmp = get_parth(0,9,9,0);
+			//~ if (tmp == NULL)	
+				//~ {	del(tmp);
+					//~ return false;}
+	//~ delete tmp;	
+	//~ return true;
+//~ }
+	//~ 
 void CheckMoney()
 {	
 		clr = {0,255,240,0};
@@ -222,9 +223,17 @@ void DrawTowers()
 						}
 						
 						if(twr[i][j]->attacked == NULL)
-							for (int k=0;k<10;k++)
-								if (twr[i][j]->detect(enm[k])) 
-									twr[i][j]->attacked = enm[k];
+							{
+								quine *vsp = ufo; 
+							while(vsp)
+								{
+								if (twr[i][j]->detect(vsp->inf)) 
+									twr[i][j]->attacked = vsp->inf;
+								vsp = vsp->next;
+								}
+								delete vsp;
+							}
+							
 						Shot(twr[i][j]);
 
 					}
@@ -242,26 +251,91 @@ void DrawTowers()
 
 //----------------------------------------------------------------------
 //Рисование врага
+//~ void DrawEnemy()
+//~ { 	
+	//~ 
+//~ for (int i=0; i<9; i++)
+//~ { if (enm[i]!=NULL)
+	//~ {
+		//~ 
+	//~ int x_twr = (int) enm[i]->getx() / range;
+	//~ int y_twr = (int) enm[i]->gety() / range;
+	//~ 
+	//~ 
+	//~ DrawIMG(enm[i]->getx(),enm[i]->gety(),enm[i]->getimg()->h,enm[i]->getimg()->w,enm[i]->getx(),enm[i]->gety(),back,screen);
+	//~ if (x_twr == 9 && 
+	    //~ y_twr == 0 || 
+	    //~ enm[i]->kill)
+		//~ { 	
+			//~ enm[i]->kill = true;
+			//~ enm[i] = NULL;
+			//~ enm_count --;
+			//~ continue;
+		//~ }
+	//~ 
+	//~ 
+	//~ if (twr[x_twr][y_twr]!=NULL)
+		//~ twr[x_twr][y_twr]->draw();
+	//~ if (x_twr < 9 && twr[x_twr + 1][y_twr]!=NULL)
+		//~ twr[x_twr + 1][y_twr]->draw();
+	//~ if (y_twr < 9 && twr[x_twr][y_twr + 1]!=NULL)
+		//~ twr[x_twr][y_twr + 1]->draw();
+	//~ if (x_twr < 9 && y_twr < 9 && twr[x_twr + 1][y_twr + 1]!=NULL)
+		//~ twr[x_twr + 1][y_twr + 1]->draw();
+	//~ 
+	//~ 
+	//~ if (enm[i]->count == 16)
+	//~ { 
+		//~ 
+		//~ enm[i]->move(540,0);
+		//~ CreateEnemy();
+//~ 
+		//~ enm[i]->count = 0;
+	//~ }
+	//~ 
+	//~ enm[i]->draw();
+	//~ enm[i]->count++;
+	//~ 
+//~ }	
+//~ }
+//~ return;
+//~ }
+//----------------------------------------------------------------------	
+
+
+//~ //----------------------------------------------------------------------
+//~ //Рисование врага
 void DrawEnemy()
 { 	
-	
-for (int i=0; i<9; i++)
-{ if (enm[i]!=NULL)
-	{
-		
-	int x_twr = (int) enm[i]->getx() / range;
-	int y_twr = (int) enm[i]->gety() / range;
+quine *vsp = ufo;
+while(vsp)
+{ 
+	int x_twr = (int) vsp->inf->getx() / range;
+	int y_twr = (int) vsp->inf->gety() / range;
 	
 	
-	DrawIMG(enm[i]->getx(),enm[i]->gety(),enm[i]->getimg()->h,enm[i]->getimg()->w,enm[i]->getx(),enm[i]->gety(),back,screen);
+	DrawIMG(vsp->inf->getx(),vsp->inf->gety(),vsp->inf->getimg()->h,vsp->inf->getimg()->w,vsp->inf->getx(),vsp->inf->gety(),back,screen);
 	if (x_twr == 9 && 
 	    y_twr == 0 || 
-	    enm[i]->kill)
+	    vsp->inf->kill)
 		{ 	
-			enm[i]->kill = true;
-			enm[i] = NULL;
-			enm_count --;
-			continue;
+			if (vsp == ufo)
+			{
+				ufo = vsp->next;
+				vsp = vsp->next;
+				delete vsp->prev;
+				continue;
+			}
+			
+			if (vsp->next == NULL)
+			{
+				delete vsp;
+				return;
+			}
+			
+			vsp->next->prev = vsp->prev;
+			vsp->prev = vsp->next;
+			
 		}
 	
 	
@@ -275,23 +349,28 @@ for (int i=0; i<9; i++)
 		twr[x_twr + 1][y_twr + 1]->draw();
 	
 	
-	if (enm[i]->count == 16)
+	if (vsp->inf->count == 16)
 	{ 
 		
-		enm[i]->move(540,0);
-		CreateEnemy();
+		vsp->inf->move(540,0);
+		//CreateEnemy();
 
-		enm[i]->count = 0;
+		vsp->inf->count = 0;
 	}
 	
-	enm[i]->draw();
-	enm[i]->count++;
+	vsp->inf->draw();
+	vsp->inf->count++;
 	
-}	
+
+
+vsp = vsp->next;	
 }
+delete vsp;
 return;
 }
-//----------------------------------------------------------------------	
+//~ //----------------------------------------------------------------------	
+
+
 //Отрисовка всего
 
 void DrawScene(){
@@ -312,16 +391,17 @@ void DrawScene(){
 //Создание башни
 void CreateTower(int x,int y)
  {		 add_tower(x,y);
-	     if (!CheckParth())
-			{del_tower(x,y);
-			 return;}
+	     //~ if (!CheckParth())
+			//~ {del_tower(x,y);
+			 //~ return;}
          DrawIMG(x*range,y*range,range,range,x*range,y*range,back,screen);
 		 twr[x][y] = new tower(x*range,y*range,towerimg,screen);
 	     twr[x][y]->draw();
-	     
-	     for (int i=0; i<9; i++)
-			 if (enm[i]!=NULL)
-					enm[i]->flag = true;
+	    
+	    quine *vsp = ufo; 
+	    while (vsp)
+			 vsp->inf->flag = true;
+		delete vsp;
 	     money-=100;
 CheckMoney();
 	}
@@ -333,9 +413,11 @@ void DeleteTower(int x,int y)
 		DrawIMG(x*range,y*range,range,range,x*range,y*range,back,screen);
 	 	 twr[x][y] = NULL;
 	 	 del_tower(x,y);
-	 	   for (int i=0; i<9; i++)
-			 if (enm[i]!=NULL)
-					enm[i]->flag = true;
+	 	
+	 	quine *vsp = ufo; 
+	    while (vsp)
+			 vsp->inf->flag = true;
+		delete vsp;
 			
 	 	 money+=50;
 	 	
@@ -457,8 +539,12 @@ int main(int argc, char** argv)
 					if (!start && x_tmp > 9 && x_tmp < 14 && y_tmp == 0)
 						{	
 						start = true;
-						enm[0] = new enemy((int)(0*range+(range - alien->w) / 2),(int)(9*range+(range - alien->h) / 2),alien,screen);
-						enm_count = 1;
+						//~ enm[0] = new enemy((int)(0*range+(range - alien->w) / 2),(int)(9*range+(range - alien->h) / 2),alien,screen);
+						enemy *tmp = new enemy((int)(0*range+(range - alien->w) / 2),(int)(9*range+(range - alien->h) / 2),alien,screen);
+						ufo = new quine();
+						ufo -> inf = tmp;
+						//enm_count = 1;
+						delete tmp;
 						}
 				break;
 			

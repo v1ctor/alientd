@@ -5,6 +5,7 @@
 #include "tools.h"
 #include "tower.h"
 #include "spisok.h"
+#include "enemy.h"
 
 //~ struct coords 
 //~ {	int x;

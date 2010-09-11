@@ -7,6 +7,7 @@
 #include "SDL_ttf.h"
 #include "SDL_image.h"
 #include "go.h"
+//#include "enemy.h"
 #include <iostream>
 #include <stdio.h>
 #include <math.h>

@@ -1,6 +1,7 @@
 #include "pathfinder.h"
 #include <stdio.h>
 
+
 void add_tower(int i, int j)
 {		nodemap[i][j] = true;
 }
@@ -15,7 +16,7 @@ zveno *get_parth(int x_s, int y_s, int x_f, int y_f)
 	//coords First;
 	
 	zveno *parth = new zveno(); 
-	//~ printf("get_parth = %i %i %i %i\n",x_s,y_s,x_f,y_f);
+	printf("get_parth = %i %i %i %i\n",x_s,y_s,x_f,y_f);
 	//стартовый узел
 	node start;
 	start.x = x_s;
