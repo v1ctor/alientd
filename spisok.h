@@ -1,7 +1,6 @@
 #ifndef SPISOK_H
 #define SPISOK_H
 
-//#include "enemy.h"
 #include <iostream>
 #include <stdio.h>
 
