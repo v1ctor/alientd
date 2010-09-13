@@ -19,7 +19,7 @@ void enemy::move(int x_f,int y_f)
 	    if (flag)
 	    {	//printf("%s\n","666");
 			parth = get_parth((int)(x/range),(int)(y/range),(int)(x_f/range),(int)(y_f/range));
-			//print(parth);
+			print(parth);
 			flag = false;
 			parth = pop(parth);
 			middle = parth->inf;
