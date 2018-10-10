@@ -2,7 +2,7 @@
 
 #include <iostream>
 #include <stdio.h>
-#include "SDL.h"
+#include "SDL/SDL.h"
 #include "tools.h"
 #include "enemy.h"
 #include "tower.h"

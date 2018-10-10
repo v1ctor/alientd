@@ -2,7 +2,7 @@
 #define TOOLS_H
 
 
-#include "SDL.h"
+#include "SDL/SDL.h"
 #include "go.h"
 
 const int range = 60;

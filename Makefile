@@ -1,16 +1,15 @@
 TARGET = main
-LIBS = `sdl-config --libs`
-CFLAGS = -O2 -ggdb -pedantic `sdl-config --cflags`
+LIBS = -framework SDL -framework SDL_Image
+HEADERS = -I/Library/Frameworks/SDL.framework/Headers
 CC = g++
 
 
 all:
-	$(CC) $(CFLAGS) -c go.cpp -o go.o
-	$(CC) $(CFLAGS) -c tools.cpp -o tools.o
-	$(CC) $(CFLAGS) -c enemy.cpp -o enemy.o
-	$(CC) $(CFLAGS) -c main.cpp -o main.o
-	$(CC) -o $(TARGET) enemy.o tools.o go.o main.o $(LIBS)
-	#strip $(TARGET)
+	$(CC) -c go.cpp -o go.o
+	$(CC) -c tools.cpp -o tools.o
+	$(CC) -c enemy.cpp -o enemy.o
+	$(CC) -c main.cpp -o main.o
+	$(CC) -o $(TARGET) enemy.o tools.o go.o main.o $(LIBS) $(HEADERS)
 clean:
 	rm *.o 
 	rm $(TARGET)

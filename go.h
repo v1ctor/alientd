@@ -1,10 +1,8 @@
 #ifndef GO_H
 #define GO_H
 
-#include "SDL.h"
+#include "SDL/SDL.h"
 #include "tools.h"
-//#define true false
-//#define false true
 
 class go
 
