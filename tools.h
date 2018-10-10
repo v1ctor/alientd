@@ -1,7 +1,7 @@
 #ifndef TOOLS_H
 #define TOOLS_H
-#define sqr(x) ((x)*(x))
 
+#define sqr(x) ((x)*(x))
 
 #include "SDL.h"
 #include "SDL_ttf.h"
