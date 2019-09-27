@@ -5,11 +5,11 @@ void add_tower(int i, int j) { nodemap[i][j] = true; }
 
 void del_tower(int i, int j) { nodemap[i][j] = false; }
 
-zveno *get_parth(int x_s, int y_s, int x_f, int y_f) {
+zveno *get_path(int x_s, int y_s, int x_f, int y_f) {
   // coords First;
 
-  zveno *parth = new zveno();
-  printf("get_parth = %i %i %i %i\n", x_s, y_s, x_f, y_f);
+  zveno *path = new zveno();
+  printf("get_path = %i %i %i %i\n", x_s, y_s, x_f, y_f);
   //стартовый узел
   node start;
   start.x = x_s;
@@ -34,7 +34,7 @@ zveno *get_parth(int x_s, int y_s, int x_f, int y_f) {
   open = pop(open);
 
   //~ цикл главный
-  while ((vsp.x != finish.x || vsp.y != finish.y))  // || )
+  while ((vsp.x != finish.x || vsp.y != finish.y)) // || )
   {
     node tmp;
 
@@ -168,17 +168,13 @@ zveno *get_parth(int x_s, int y_s, int x_f, int y_f) {
       if (!find(close, tmp)) {
         if (tmp.x > 0 && !nodemap[tmp.x - 1][tmp.y])
           if (tmp.y > 0 && !nodemap[tmp.x][tmp.y - 1])
-            if (!find(open, tmp) && !nodemap[tmp.x][tmp.y]
-
-            ) {
+            if (!find(open, tmp) && !nodemap[tmp.x][tmp.y]) {
               tmp.parent = new node();
               *tmp.parent = vsp;
               tmp.G = tmp.parent->G + 1;
               tmp.H = abs(finish.x - tmp.x) + abs(finish.y - tmp.y);
               tmp.F = tmp.G + tmp.H;
               open = pushsort(open, tmp);
-              // printf("open - > %i %i\n",tmp.x,tmp.y);
-              // delete tmp.parent;
             }
       }
     }
@@ -201,24 +197,11 @@ zveno *get_parth(int x_s, int y_s, int x_f, int y_f) {
               tmp.H = abs(finish.x - tmp.x) + abs(finish.y - tmp.y);
               tmp.F = tmp.G + tmp.H;
               open = pushsort(open, tmp);
-              // printf("open - > %i %i\n",tmp.x,tmp.y);
-              // delete tmp.parent;
             }
       }
     }
 
-    // printf("close - > %i %i %i\n",vsp.x,vsp.y,vsp.F);
-    //~ printf("%s\n","open----------------------------");
-    // print (open);
-    //~ printf("%s\n","close---------------------------");
-    //~ print (close);
-    //~ printf("%s\n","----------------------------");
-
-    //~ if
     if (open == NULL && (vsp.x != finish.x || vsp.y != finish.y)) {
-      // printf("%s\n","path not found");
-      //~ char s[80];
-      //~ gets(&s[0]);
       del(open);
       del(close);
       return NULL;
@@ -227,29 +210,18 @@ zveno *get_parth(int x_s, int y_s, int x_f, int y_f) {
     vsp = open->inf;
     close = push(close, vsp);
     open = pop(open);
-
-    // delete tmp.parent;
   }
 
   node *tmp;
   tmp = &vsp;
-  parth->inf = *tmp;
-  //~ printf("%i %i %i %i\n",tmp->x,tmp->y,tmp->parent->x,tmp->parent->y);
+  path->inf = *tmp;
   while (tmp->parent != NULL) {
     tmp = tmp->parent;
-    parth = push(parth, *tmp);
-    //~ print(parth);
+    path = push(path, *tmp);
   }
 
   delete tmp;
   del(open);
   del(close);
-  //~ print(open);
-  //~ print(close);
-  //~
-  //~ char s[80];
-  //~ gets(&s[0]);
-  //~
-  //~ printf("%s\n","end");
-  return parth;
+  return path;
 }

@@ -12,5 +12,4 @@ go::go(int x_tmp, int y_tmp, SDL_Surface *dir, SDL_Surface *screen) {
 
 void go::draw() {
   DrawIMG(x, y, img, mScreen);
-  return;
 }

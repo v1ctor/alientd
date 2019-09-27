@@ -11,14 +11,13 @@ struct quine {
   // zveno *prev;
 };
 
-template <class E>
-bool empty(E *first) {
-  if (first == NULL) return true;
+template <class E> bool empty(E *first) {
+  if (first == NULL)
+    return true;
   return false;
 };
 
-template <class E, class T>
-E *push(E *first, T tmp) {
+template <class E, class T> E *push(E *first, T tmp) {
   if (empty(first)) {
     first = new E();
     first->inf = tmp;
@@ -33,8 +32,7 @@ E *push(E *first, T tmp) {
   return first;
 };
 
-template <class E>
-E *pop(E *first) {
+template <class E> E *pop(E *first) {
   E *vsp;
   if (first->next != NULL)
     vsp = first->next;
@@ -44,8 +42,7 @@ E *pop(E *first) {
   return vsp;
 };
 
-template <class E, class T>
-E *pushsort(E *first, T input) {
+template <class E, class T> E *pushsort(E *first, T input) {
   if (!first) {
     first = new E();
     first->inf = input;
@@ -81,26 +78,24 @@ E *pushsort(E *first, T input) {
   return first;
 };
 
-template <class E>
-void print(E *first) {
+template <class E> void print(E *first) {
   E *vsp;
   vsp = first;
   while (vsp != NULL) {
     printf("%s\n", "----------------------------");
     printf("x,y,F = %i %i %i\n", vsp->inf.x, vsp->inf.y,
-           vsp->inf.F);  //,vsp->inf.parent->x,vsp->inf.parent->y);
+           vsp->inf.F); //,vsp->inf.parent->x,vsp->inf.parent->y);
     vsp = vsp->next;
     // printf("%s\n","----------------------------");
   }
   printf("%s\n", "end------------------------------");
 };
 
-template <class E, class T>
-bool find(E *first, T input) {
+template <class E, class T> bool find(E *first, T input) {
   E *vsp;
   vsp = first;
-  while (vsp != NULL) {  //    printf("%i %i %i
-                         //    %i\n",vsp->inf.x,vsp->inf.y,input.x,input.y);
+  while (vsp != NULL) { //    printf("%i %i %i
+                        //    %i\n",vsp->inf.x,vsp->inf.y,input.x,input.y);
     if (vsp->inf.x == input.x && vsp->inf.y == input.y) {
       //~ printf("%s\n","find");
       return true;
@@ -119,8 +114,7 @@ bool find(E *first, T input) {
 //~
 //~ }
 
-template <class E>
-void del(E *first) {
+template <class E> void del(E *first) {
   E *vsp;
   vsp = first;
   while (vsp) {

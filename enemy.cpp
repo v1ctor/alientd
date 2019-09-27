@@ -1,48 +1,44 @@
 
 #include "enemy.h"
-#include <stdio.h>
-#include <iostream>
 #include "pathfinder.h"
 #include "spisok.h"
+#include <iostream>
+#include <stdio.h>
 
 void enemy::move(int x_f, int y_f) {
   x_c = (int)(x + 0.5 * range);
   y_c = (int)(y + 0.5 * range);
 
   if (health > 0) {
-    if (flag) {  // printf("%s\n","666");
-      parth = get_parth((int)(x / range), (int)(y / range), (int)(x_f / range),
+    if (flag) {
+      path = get_path((int)(x / range), (int)(y / range), (int)(x_f / range),
                         (int)(y_f / range));
-      print(parth);
+      print(path);
       flag = false;
-      parth = pop(parth);
-      middle = parth->inf;
-      parth = pop(parth);
+      path = pop(path);
+      middle = path->inf;
+      path = pop(path);
     }
-
-    // printf("%i %i %i %i\n",x,y,middle.x*range,middle.y*range);
-    //~ char s[80];
-    //~ gets(&s[0]);
 
     if (abs(x - middle.x * range) >= speed ||
         abs(y - middle.y * range) >= speed) {
-      if (x < middle.x * range) x += speed;
-      if (x > middle.x * range) x -= speed;
-      if (y < middle.y * range) y += speed;
-      if (y > middle.y * range) y -= speed;
-      // printf("%s\n","3");
+      if (x < middle.x * range)
+        x += speed;
+      if (x > middle.x * range)
+        x -= speed;
+      if (y < middle.y * range)
+        y += speed;
+      if (y > middle.y * range)
+        y -= speed;
 
     } else {
-      // printf("%s\n","4");
-      middle = parth->inf;
-      parth = pop(parth);
+      middle = path->inf;
+      path = pop(path);
     }
 
   } else {
     kill = true;
-    del(parth);
-    //~ money += price;
-    //~ printf("денег = %i\n",money);
+    del(path);
   }
 
   return;

@@ -4,11 +4,9 @@
 #include "go.h"
 
 class tower : public go {
- public:
+public:
   tower(int x_tmp, int y_tmp, SDL_Surface *dir, SDL_Surface *screen)
       : go(x_tmp, y_tmp, dir, screen) {
-    //~ x_c = (int) (x + 0.5 * range);
-    //~ y_c = (int) (y + 0.5 * range);
     radius = (int)1 * range + 0.5 * range;
     attacked = NULL;
     speed = 5;
@@ -18,9 +16,10 @@ class tower : public go {
     x_bull = x_c;
     y_bull = y_c;
     power = 5;
-  };
-  ~tower(){};
-  void attack();  // enemy *tmp);//int x, int y);
+  }
+
+  ~tower() = default;
+  void attack(); // enemy *tmp);//int x, int y);
   bool detect(enemy *tmp);
   enemy *attacked;
   int x_bull, y_bull, x_bull_end, y_bull_end;
@@ -28,7 +27,7 @@ class tower : public go {
   int power;
   int speed;
 
- protected:
+protected:
   // int x_prev,y_prev;
 };
-#endif  //__ENEMY_H__
+#endif //__ENEMY_H__

@@ -4,10 +4,7 @@
 #include "spisok.h"
 #include "tools.h"
 #include "tower.h"
-//#include <stdlib.h>
 
-// enemy *enm[10]={};
-// tower *twr;
 quine *ufo;
 tower *twr[r_count][r_count] = {};
 
@@ -17,14 +14,15 @@ int count2 = 0;
 // int enm_count;
 int x_vsp = -1, y_vsp = -1;
 bool start = false;
-SDL_Color clr;  // = {255,255,255,0};
-SDL_Rect dest;  // = {620, 0,0,0};
+SDL_Color clr; // = {255,255,255,0};
+SDL_Rect dest; // = {620, 0,0,0};
 char *fontname = "font/seed_cyr_medim.ttf";
 
 void print_ttf(SDL_Surface *sDest, char *message, char *font, int size,
                SDL_Color color, SDL_Rect dest) {
   TTF_Font *fnt = TTF_OpenFont(font, size);
-  if (!fnt) printf("TTF_OpenFont: %s\n", TTF_GetError());
+  if (!fnt)
+    printf("TTF_OpenFont: %s\n", TTF_GetError());
   SDL_Surface *sText = TTF_RenderText_Blended(fnt, message, color);
   SDL_BlitSurface(sText, NULL, sDest, &dest);
   SDL_FreeSurface(sText);
@@ -59,37 +57,6 @@ void InitImages() {
   return;
 }
 
-//~ void CreateEnemy()
-//~ {
-//~ if (enm_count < 10 && enm_count != 0 &&
-//~ (	(int)(enm[enm_count-1]->getx()/range) > 0 ||
-//~ (int)(enm[enm_count-1]->gety()/range) < 8)
-//~ )
-//~ {
-//~ enm[enm_count] = new enemy((int)(0*range+(range - alien->w) /
-// 2),(int)(9*range+(range - alien->h) / 2),alien,screen); ~ enm_count++;
-//~ }
-//~
-//~ }
-
-//~ bool CheckParth()
-//~ {
-//~ zveno *tmp;
-//~ for (int i=0; i<9; i++)
-//~ if (enm[i] != NULL)
-//~ {
-//~ tmp =
-// get_parth((int)(enm[i]->getx()/range),(int)(enm[i]->gety()/range),9,0); ~ if
-//(tmp == NULL) ~ {	del(tmp); ~ return false;}
-//~ }
-//~ tmp = get_parth(0,9,9,0);
-//~ if (tmp == NULL)
-//~ {	del(tmp);
-//~ return false;}
-//~ delete tmp;
-//~ return true;
-//~ }
-//~
 void CheckMoney() {
   clr = {0, 255, 240, 0};
   dest = {620, 60, 0, 0};
@@ -153,12 +120,8 @@ void Shot(tower *tmp) {
   return;
 }
 
-//----------------------------------------------------------------------
-//Индикация
 void Lighting(int x, int y) {
-  // add_tower(x,y);
-  if (/*!CheckParth() || */ (twr[x][y] == NULL && money < 100)) {
-    // del_tower(x,y);
+  if (twr[x][y] == NULL && money < 100) {
     DrawIMG(x * range, y * range, deny, screen);
   }
 
@@ -166,8 +129,6 @@ void Lighting(int x, int y) {
     DrawIMG(x * range, y * range, allow, screen);
 }
 
-//----------------------------------------------------------------------
-//Рисование башень
 void DrawTowers() {
   if (count2 == 20) {
     for (int i = 0; i < 10; i++) {
@@ -191,7 +152,8 @@ void DrawTowers() {
           if (twr[i][j]->attacked == NULL) {
             quine *vsp = ufo;
             while (vsp) {
-              if (twr[i][j]->detect(vsp->inf)) twr[i][j]->attacked = vsp->inf;
+              if (twr[i][j]->detect(vsp->inf))
+                twr[i][j]->attacked = vsp->inf;
               vsp = vsp->next;
             }
             delete vsp;
@@ -206,62 +168,6 @@ void DrawTowers() {
   count2++;
 }
 
-//----------------------------------------------------------------------
-//Рисование врага
-//~ void DrawEnemy()
-//~ {
-//~
-//~ for (int i=0; i<9; i++)
-//~ { if (enm[i]!=NULL)
-//~ {
-//~
-//~ int x_twr = (int) enm[i]->getx() / range;
-//~ int y_twr = (int) enm[i]->gety() / range;
-//~
-//~
-//~
-// DrawIMG(enm[i]->getx(),enm[i]->gety(),enm[i]->getimg()->h,enm[i]->getimg()->w,enm[i]->getx(),enm[i]->gety(),back,screen);
-//~ if (x_twr == 9 &&
-//~ y_twr == 0 ||
-//~ enm[i]->kill)
-//~ {
-//~ enm[i]->kill = true;
-//~ enm[i] = NULL;
-//~ enm_count --;
-//~ continue;
-//~ }
-//~
-//~
-//~ if (twr[x_twr][y_twr]!=NULL)
-//~ twr[x_twr][y_twr]->draw();
-//~ if (x_twr < 9 && twr[x_twr + 1][y_twr]!=NULL)
-//~ twr[x_twr + 1][y_twr]->draw();
-//~ if (y_twr < 9 && twr[x_twr][y_twr + 1]!=NULL)
-//~ twr[x_twr][y_twr + 1]->draw();
-//~ if (x_twr < 9 && y_twr < 9 && twr[x_twr + 1][y_twr + 1]!=NULL)
-//~ twr[x_twr + 1][y_twr + 1]->draw();
-//~
-//~
-//~ if (enm[i]->count == 16)
-//~ {
-//~
-//~ enm[i]->move(540,0);
-//~ CreateEnemy();
-//~
-//~ enm[i]->count = 0;
-//~ }
-//~
-//~ enm[i]->draw();
-//~ enm[i]->count++;
-//~
-//~ }
-//~ }
-//~ return;
-//~ }
-//----------------------------------------------------------------------
-
-//~ //----------------------------------------------------------------------
-//~ //Рисование врага
 void DrawEnemy() {
   quine *vsp = ufo;
   while (vsp) {
@@ -288,7 +194,8 @@ void DrawEnemy() {
       vsp->prev = vsp->next;
     }
 
-    if (twr[x_twr][y_twr] != NULL) twr[x_twr][y_twr]->draw();
+    if (twr[x_twr][y_twr] != NULL)
+      twr[x_twr][y_twr]->draw();
     if (x_twr < 9 && twr[x_twr + 1][y_twr] != NULL)
       twr[x_twr + 1][y_twr]->draw();
     if (y_twr < 9 && twr[x_twr][y_twr + 1] != NULL)
@@ -327,7 +234,7 @@ void DrawScene() {
 //Создание башни
 void CreateTower(int x, int y) {
   add_tower(x, y);
-  //~ if (!CheckParth())
+  //~ if (!Checkpath())
   //~ {del_tower(x,y);
   //~ return;}
   DrawIMG(x * range, y * range, range, range, x * range, y * range, back,
@@ -336,7 +243,8 @@ void CreateTower(int x, int y) {
   twr[x][y]->draw();
 
   quine *vsp = ufo;
-  while (vsp) vsp->inf->flag = true;
+  while (vsp)
+    vsp->inf->flag = true;
   delete vsp;
   money -= 100;
   CheckMoney();
@@ -351,7 +259,8 @@ void DeleteTower(int x, int y) {
   del_tower(x, y);
 
   quine *vsp = ufo;
-  while (vsp) vsp->inf->flag = true;
+  while (vsp)
+    vsp->inf->flag = true;
   delete vsp;
 
   money += 50;
@@ -421,66 +330,67 @@ int main(int argc, char **argv) {
 
       while (SDL_PollEvent(&event)) {
         switch (event.type) {
-          //~ закрытие
-          case SDL_QUIT:
+        //~ закрытие
+        case SDL_QUIT:
+          done = 1;
+          break;
+
+        //~ нажатие клавиш
+        case SDL_KEYDOWN:
+          if (event.key.keysym.sym == SDLK_ESCAPE) {
             done = 1;
-            break;
+          }
+          break;
 
-          //~ нажатие клавиш
-          case SDL_KEYDOWN:
-            if (event.key.keysym.sym == SDLK_ESCAPE) {
-              done = 1;
-            }
-            break;
+        //~ клик мышкой
+        case SDL_MOUSEBUTTONDOWN:
 
-          //~ клик мышкой
-          case SDL_MOUSEBUTTONDOWN:
+          int x_tmp, y_tmp;
 
-            int x_tmp, y_tmp;
+          x_tmp = (int)event.button.x / range;
+          y_tmp = (int)event.button.y / range;
+          //	printf ("%i %i\n",x_tmp,y_tmp);
+          if (twr[x_tmp][y_tmp] == NULL && event.button.x <= 600 &&
+              event.button.button == 1 && money - 100 >= 0)
+            CreateTower(x_tmp, y_tmp);
+          if (twr[x_tmp][y_tmp] != NULL && event.button.x <= 600 &&
+              event.button.button == 3)
+            DeleteTower(x_tmp, y_tmp);
+          if (!start && x_tmp > 9 && x_tmp < 14 && y_tmp == 0) {
+            start = true;
+            //~ enm[0] = new enemy((int)(0*range+(range - alien->w) /
+            // 2),(int)(9*range+(range - alien->h) / 2),alien,screen);
+            enemy *tmp = new enemy((int)(0 * range + (range - alien->w) / 2),
+                                   (int)(9 * range + (range - alien->h) / 2),
+                                   alien, screen);
+            ufo = new quine();
+            ufo->inf = tmp;
+            // enm_count = 1;
+            delete tmp;
+          }
+          break;
 
-            x_tmp = (int)event.button.x / range;
-            y_tmp = (int)event.button.y / range;
-            //	printf ("%i %i\n",x_tmp,y_tmp);
-            if (twr[x_tmp][y_tmp] == NULL && event.button.x <= 600 &&
-                event.button.button == 1 && money - 100 >= 0)
-              CreateTower(x_tmp, y_tmp);
-            if (twr[x_tmp][y_tmp] != NULL && event.button.x <= 600 &&
-                event.button.button == 3)
-              DeleteTower(x_tmp, y_tmp);
-            if (!start && x_tmp > 9 && x_tmp < 14 && y_tmp == 0) {
-              start = true;
-              //~ enm[0] = new enemy((int)(0*range+(range - alien->w) /
-              // 2),(int)(9*range+(range - alien->h) / 2),alien,screen);
-              enemy *tmp = new enemy((int)(0 * range + (range - alien->w) / 2),
-                                     (int)(9 * range + (range - alien->h) / 2),
-                                     alien, screen);
-              ufo = new quine();
-              ufo->inf = tmp;
-              // enm_count = 1;
-              delete tmp;
-            }
-            break;
+        //~ движение мыши
+        case SDL_MOUSEMOTION:
+          int x, y;
+          SDL_GetMouseState(&x, &y);
+          x = (int)x / range;
+          y = (int)y / range;
 
-          //~ движение мыши
-          case SDL_MOUSEMOTION:
-            int x, y;
-            SDL_GetMouseState(&x, &y);
-            x = (int)x / range;
-            y = (int)y / range;
+          if (x_vsp != x || y_vsp != y) {
+            DrawIMG(x_vsp * range, y_vsp * range, range, range, x_vsp * range,
+                    y_vsp * range, back, screen);
+            if (twr[x_vsp][y_vsp] != NULL)
+              twr[x_vsp][y_vsp]->draw();
+          }
 
-            if (x_vsp != x || y_vsp != y) {
-              DrawIMG(x_vsp * range, y_vsp * range, range, range, x_vsp * range,
-                      y_vsp * range, back, screen);
-              if (twr[x_vsp][y_vsp] != NULL) twr[x_vsp][y_vsp]->draw();
-            }
+          if (x < 10) {
+            Lighting(x, y);
+            x_vsp = x;
+            y_vsp = y;
+          }
 
-            if (x < 10) {
-              Lighting(x, y);
-              x_vsp = x;
-              y_vsp = y;
-            }
-
-            break;
+          break;
         }
       }
 

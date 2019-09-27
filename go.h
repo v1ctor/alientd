@@ -1,14 +1,13 @@
-#ifndef GO_H
-#define GO_H
-
 #include "SDL/SDL.h"
 #include "tools.h"
 
+#ifndef GO_H
+#define GO_H
+
 class go {
- public:
-  go(int x_tmp, int y_tmp, SDL_Surface *dir,
-     SDL_Surface *screen);  //, int price_tmp, int health_tmp);
-  ~go(){};
+public:
+  go(int x_tmp, int y_tmp, SDL_Surface *dir, SDL_Surface *screen);
+  ~go() = default;
   void setx(int tmp) { x = tmp; };
   void sety(int tmp) { y = tmp; };
   SDL_Surface *getimg() { return img; };
@@ -17,11 +16,10 @@ class go {
   void draw();
   int x_c, y_c;
 
- protected:
+protected:
   int x, y;
   SDL_Surface *img;
   SDL_Surface *mScreen;
-  // int price;
-  // int health;
 };
-#endif  //__GO_H__
+
+#endif //__GO_H__
