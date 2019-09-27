@@ -7,8 +7,8 @@ namespace alientd {
 
 class tower : public go {
 public:
-  tower(int x_tmp, int y_tmp, SDL_Surface *dir, SDL_Surface *screen)
-      : go(x_tmp, y_tmp, dir, screen) {
+  tower(int x_tmp, int y_tmp, SDL_Texture* texture, SDL_Renderer* renderer)
+      : go(x_tmp, y_tmp, texture, renderer) {
     radius = (int)1 * range + 0.5 * range;
     attacked = nullptr;
     speed = 5;
@@ -21,16 +21,14 @@ public:
   }
 
   ~tower() = default;
-  void attack(); // enemy *tmp);//int x, int y);
+
+  void attack() {}
   bool detect(enemy *tmp);
   enemy *attacked;
   int x_bull, y_bull, x_bull_end, y_bull_end;
   int radius;
   int power;
   int speed;
-
-protected:
-  // int x_prev,y_prev;
 };
 
 }

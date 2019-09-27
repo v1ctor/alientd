@@ -21,8 +21,8 @@ struct zveno {
 
 class enemy : public go {
 public:
-  enemy(int x_tmp, int y_tmp, SDL_Surface *dir, SDL_Surface *screen)
-      : go(x_tmp, y_tmp, dir, screen) {
+  enemy(int x_tmp, int y_tmp, SDL_Texture* texture, SDL_Renderer* renderer)
+      : go(x_tmp, y_tmp, texture, renderer) {
     speed = 1;
     count = 0;
     health = 150;

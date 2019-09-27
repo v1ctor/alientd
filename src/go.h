@@ -8,11 +8,11 @@ namespace alientd {
 
 class go {
 public:
-  go(int x_tmp, int y_tmp, SDL_Surface *dir, SDL_Surface *screen);
+  go(int x_tmp, int y_tmp, SDL_Texture* texture, SDL_Renderer* renderer);
   ~go() = default;
   void setx(int tmp) { x = tmp; };
   void sety(int tmp) { y = tmp; };
-  SDL_Surface *getimg() { return img; };
+  SDL_Texture *getimg() { return img; };
   int getx() { return x; };
   int gety() { return y; };
   void draw();
@@ -20,8 +20,8 @@ public:
 
 protected:
   int x, y;
-  SDL_Surface *img;
-  SDL_Surface *mScreen;
+  SDL_Texture *img;
+  SDL_Renderer *mRenderer;
 };
 
 }

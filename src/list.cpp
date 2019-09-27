@@ -21,7 +21,7 @@ zveno *pop(zveno *first) {
   if (first->next != nullptr)
     vsp = first->next;
   else
-    vsp == nullptr;
+    vsp = nullptr;
   delete first;
   return vsp;
 }
