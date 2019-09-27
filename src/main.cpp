@@ -228,9 +228,6 @@ void DrawEnemy() {
   delete vsp;
   return;
 }
-//~ //----------------------------------------------------------------------
-
-//Отрисовка всего
 
 void DrawScene() {
   DrawTowers();
@@ -240,13 +237,8 @@ void DrawScene() {
   SDL_RenderPresent(renderer);
 }
 
-//----------------------------------------------------------------------
-//Создание башни
 void CreateTower(int x, int y) {
   add_tower(x, y);
-  //~ if (!Checkpath())
-  //~ {del_tower(x,y);
-  //~ return;}
   DrawIMG(x * range, y * range, range, range, x * range, y * range, back,
           renderer);
   twr[x][y] = new tower(x * range, y * range, towerimg, renderer);
@@ -260,8 +252,6 @@ void CreateTower(int x, int y) {
   CheckMoney();
 }
 
-//----------------------------------------------------------------------
-//Продажа башни
 void DeleteTower(int x, int y) {
   DrawIMG(x * range, y * range, range, range, x * range, y * range, back,
           renderer);
@@ -284,38 +274,106 @@ void end() {
   IMG_Quit();
 }
 
-//----------------------------------------------------------------------
-// MAIN LOOP
-int main(int argc, char **argv) {
-  //----------------------------------------------------------------------
-  //Инициализация SDL
+bool initSDL() {
   if (SDL_Init(SDL_INIT_VIDEO) < 0) {
-    printf("Error");
-    exit(1);
+    return false;
   }
 
   if (TTF_Init() == -1) {
-    printf("TTF_Init: %s\n", TTF_GetError());
-    exit(2);
+    return false;
   }
 
   int flags = IMG_INIT_JPG | IMG_INIT_PNG;
   int initted = IMG_Init(flags);
   if ((initted & flags) != flags) {
-    printf("IMG_Init: Failed to init required jpg and png support!\n");
-    printf("IMG_Init: %s\n", IMG_GetError());
+    return false;
   }
 
   SDL_Window *screen = SDL_CreateWindow("My Game Window",
                           SDL_WINDOWPOS_UNDEFINED,
                           SDL_WINDOWPOS_UNDEFINED,
                           800, 600,
-                          SDL_WINDOW_FULLSCREEN | SDL_WINDOW_OPENGL);
+                          SDL_WINDOW_OPENGL);
   if (screen == nullptr) {
-    return 1;
+    return false;
   }
   renderer = SDL_CreateRenderer(screen, -1, SDL_RENDERER_ACCELERATED);
+  return renderer != nullptr;
+}
 
+void pressButton(int screenX, int screenY) {
+  int x_tmp = screenX / range;
+  int y_tmp = screenY / range;
+  if (twr[x_tmp][y_tmp] == nullptr && event.button.x <= 600 &&
+      event.button.button == 1 && money - 100 >= 0)
+    CreateTower(x_tmp, y_tmp);
+  if (twr[x_tmp][y_tmp] != nullptr && event.button.x <= 600 &&
+      event.button.button == 3)
+    DeleteTower(x_tmp, y_tmp);
+  if (!start && x_tmp > 9 && x_tmp < 14 && y_tmp == 0) {
+    start = true;
+    int w, h;
+    SDL_QueryTexture(alien, NULL, NULL, &w, &h);
+    enemy *tmp = new enemy((int)(0 * range + (range - w) / 2),
+                           (int)(9 * range + (range - h) / 2),
+                           alien, renderer);
+    ufo = new quine();
+    ufo->inf = tmp;
+}
+
+void mouseMove(int x, int y) {
+  if (x_vsp != x || y_vsp != y) {
+    DrawIMG(x_vsp * range, y_vsp * range, range, range, x_vsp * range,
+            y_vsp * range, back, renderer);
+    if (twr[x_vsp][y_vsp] != nullptr)
+      twr[x_vsp][y_vsp]->draw();
+  }
+
+  if (x < 10) {
+    Lighting(x, y);
+    x_vsp = x;
+    y_vsp = y;
+  }
+}
+
+bool handleEvent() {
+  while (SDL_PollEvent(&event)) {
+    switch (event.type) {
+    case SDL_QUIT:
+      return false;
+      break;
+    case SDL_KEYDOWN:
+      if (event.key.keysym.sym == SDLK_ESCAPE) {
+        return false;
+      }
+      break;
+    case SDL_MOUSEBUTTONDOWN:
+      pressButton(event.button.x, event.button.y);
+      }
+      break;
+    case SDL_MOUSEMOTION:
+      int x, y;
+      SDL_GetMouseState(&x, &y);
+      x = (int)x / range;
+      y = (int)y / range;
+      mouseMove(x, y);
+      break;
+    }
+    return true;
+}
+
+void runMainLoop() {
+  bool done = false;
+  while (!done) {
+    SDL_Event event;
+    if (!handleEvent()) {
+      done = true;
+    }
+    DrawScene();
+  }
+}
+
+void initGameState() {
   InitImages();
   DrawIMG(0, 0, back, renderer);
   DrawIMG(600, 0, menu, renderer);
@@ -323,82 +381,15 @@ int main(int argc, char **argv) {
   dest = {620, 0, 0, 0};
   print_ttf("START", fontname, 60, clr, dest);
   CheckMoney();
+}
 
-  // MainLoop
-  {
-    int done = 0;
-    while (done == 0) {
-      SDL_Event event;
+int main(int argc, char **argv) {
 
-      while (SDL_PollEvent(&event)) {
-        switch (event.type) {
-        //~ закрытие
-        case SDL_QUIT:
-          done = 1;
-          break;
-
-        //~ нажатие клавиш
-        case SDL_KEYDOWN:
-          if (event.key.keysym.sym == SDLK_ESCAPE) {
-            done = 1;
-          }
-          break;
-
-        //~ клик мышкой
-        case SDL_MOUSEBUTTONDOWN:
-
-          int x_tmp, y_tmp;
-
-          x_tmp = (int)event.button.x / range;
-          y_tmp = (int)event.button.y / range;
-          //	printf ("%i %i\n",x_tmp,y_tmp);
-          if (twr[x_tmp][y_tmp] == nullptr && event.button.x <= 600 &&
-              event.button.button == 1 && money - 100 >= 0)
-            CreateTower(x_tmp, y_tmp);
-          if (twr[x_tmp][y_tmp] != nullptr && event.button.x <= 600 &&
-              event.button.button == 3)
-            DeleteTower(x_tmp, y_tmp);
-          if (!start && x_tmp > 9 && x_tmp < 14 && y_tmp == 0) {
-            start = true;
-            int w, h;
-            SDL_QueryTexture(alien, NULL, NULL, &w, &h);
-            enemy *tmp = new enemy((int)(0 * range + (range - w) / 2),
-                                   (int)(9 * range + (range - h) / 2),
-                                   alien, renderer);
-            ufo = new quine();
-            ufo->inf = tmp;
-            // enm_count = 1;
-            delete tmp;
-          }
-          break;
-
-        //~ движение мыши
-        case SDL_MOUSEMOTION:
-          int x, y;
-          SDL_GetMouseState(&x, &y);
-          x = (int)x / range;
-          y = (int)y / range;
-
-          if (x_vsp != x || y_vsp != y) {
-            DrawIMG(x_vsp * range, y_vsp * range, range, range, x_vsp * range,
-                    y_vsp * range, back, renderer);
-            if (twr[x_vsp][y_vsp] != nullptr)
-              twr[x_vsp][y_vsp]->draw();
-          }
-
-          if (x < 10) {
-            Lighting(x, y);
-            x_vsp = x;
-            y_vsp = y;
-          }
-
-          break;
-        }
-      }
-
-      DrawScene();
-    }
+  if (!initSDL()) {
+    return -1;
   }
+
+  runMainLoop();
 
   return 0;
 }
