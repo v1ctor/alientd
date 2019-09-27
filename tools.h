@@ -2,10 +2,10 @@
 #define TOOLS_H
 #define sqr(x) ((x)*(x))
 
-
 #include "SDL.h"
 #include "SDL_ttf.h"
 #include "SDL_image.h"
+
 #include "go.h"
 //#include "enemy.h"
 #include <iostream>
