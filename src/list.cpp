@@ -18,10 +18,10 @@ zveno *push(zveno *first, node tmp) {
 
 zveno *pop(zveno *first) {
   zveno *vsp;
-  if (first->next != NULL)
+  if (first->next != nullptr)
     vsp = first->next;
   else
-    vsp == NULL;
+    vsp == nullptr;
   delete first;
   return vsp;
 }
@@ -44,7 +44,7 @@ zveno *pushsort(zveno *first, node input) {
       return tmp;
     }
     while (vsp) {
-      if (vsp->next == NULL) {
+      if (vsp->next == nullptr) {
         vsp->next = tmp;
         return first;
       }
@@ -65,7 +65,7 @@ zveno *pushsort(zveno *first, node input) {
 void print(zveno *first) {
   zveno *vsp;
   vsp = first;
-  while (vsp != NULL) {
+  while (vsp != nullptr) {
     printf("%s\n", "----------------------------");
     printf("x,y,F = %i %i %i\n", vsp->inf.x, vsp->inf.y,
            vsp->inf.F); //,vsp->inf.parent->x,vsp->inf.parent->y);
@@ -78,7 +78,7 @@ void print(zveno *first) {
 bool find(zveno *first, node input) {
   zveno *vsp;
   vsp = first;
-  while (vsp != NULL) {
+  while (vsp != nullptr) {
     if (vsp->inf.x == input.x && vsp->inf.y == input.y) {
       return true;
     }
@@ -90,7 +90,7 @@ bool find(zveno *first, node input) {
 }
 
 bool empty(zveno *first) {
-  if (first == NULL)
+  if (first == nullptr)
     return true;
   return false;
 }

@@ -7,7 +7,7 @@ namespace alientd {
 void tower::attack() {}
 
 bool tower::detect(enemy *tmp) {
-  if (tmp == NULL)
+  if (tmp == nullptr)
     return false;
 
   int x_tmp = tmp->getx();

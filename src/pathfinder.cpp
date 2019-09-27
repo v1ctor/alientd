@@ -202,10 +202,10 @@ zveno *get_path(int x_s, int y_s, int x_f, int y_f) {
       }
     }
 
-    if (open == NULL && (vsp.x != finish.x || vsp.y != finish.y)) {
+    if (open == nullptr && (vsp.x != finish.x || vsp.y != finish.y)) {
       del(open);
       del(close);
-      return NULL;
+      return nullptr;
     }
 
     vsp = open->inf;
@@ -216,7 +216,7 @@ zveno *get_path(int x_s, int y_s, int x_f, int y_f) {
   node *tmp;
   tmp = &vsp;
   path->inf = *tmp;
-  while (tmp->parent != NULL) {
+  while (tmp->parent != nullptr) {
     tmp = tmp->parent;
     path = push(path, *tmp);
   }

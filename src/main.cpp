@@ -26,7 +26,7 @@ void print_ttf(SDL_Surface *sDest, char *message, char *font, int size,
   if (!fnt)
     printf("TTF_OpenFont: %s\n", TTF_GetError());
   SDL_Surface *sText = TTF_RenderText_Blended(fnt, message, color);
-  SDL_BlitSurface(sText, NULL, sDest, &dest);
+  SDL_BlitSurface(sText, nullptr, sDest, &dest);
   SDL_FreeSurface(sText);
   TTF_CloseFont(fnt);
 }
@@ -76,7 +76,7 @@ void CheckMoney() {
 
 void Shot(tower *tmp) {
   //~ Если обнаружен враг
-  if (tmp->attacked != NULL) {
+  if (tmp->attacked != nullptr) {
     //Считывание координат врага
     tmp->x_bull_end = tmp->attacked->x_c;
     tmp->y_bull_end = tmp->attacked->y_c;
@@ -123,7 +123,7 @@ void Shot(tower *tmp) {
 }
 
 void Lighting(int x, int y) {
-  if (twr[x][y] == NULL && money < 100) {
+  if (twr[x][y] == nullptr && money < 100) {
     DrawIMG(x * range, y * range, deny, screen);
   }
 
@@ -136,10 +136,10 @@ void DrawTowers() {
     for (int i = 0; i < 10; i++) {
       for (int j = 0; j < 10; j++) {
         //~ Если башня существует
-        if (twr[i][j] != NULL) {
+        if (twr[i][j] != nullptr) {
           twr[i][j]->attack();
 
-          if (twr[i][j]->attacked != NULL)
+          if (twr[i][j]->attacked != nullptr)
 
             // printf("%i\n",attacked->health);
             if (twr[i][j]->attacked->kill ||
@@ -148,10 +148,10 @@ void DrawTowers() {
                       bullet->w, twr[i][j]->x_bull, twr[i][j]->y_bull, back,
                       screen);
               DrawIMG(twr[i][j]->getx(), twr[i][j]->gety(), towerimg, screen);
-              twr[i][j]->attacked = NULL;
+              twr[i][j]->attacked = nullptr;
             }
 
-          if (twr[i][j]->attacked == NULL) {
+          if (twr[i][j]->attacked == nullptr) {
             quine *vsp = ufo;
             while (vsp) {
               if (twr[i][j]->detect(vsp->inf))
@@ -187,7 +187,7 @@ void DrawEnemy() {
         continue;
       }
 
-      if (vsp->next == NULL) {
+      if (vsp->next == nullptr) {
         delete vsp;
         return;
       }
@@ -196,13 +196,13 @@ void DrawEnemy() {
       vsp->prev = vsp->next;
     }
 
-    if (twr[x_twr][y_twr] != NULL)
+    if (twr[x_twr][y_twr] != nullptr)
       twr[x_twr][y_twr]->draw();
-    if (x_twr < 9 && twr[x_twr + 1][y_twr] != NULL)
+    if (x_twr < 9 && twr[x_twr + 1][y_twr] != nullptr)
       twr[x_twr + 1][y_twr]->draw();
-    if (y_twr < 9 && twr[x_twr][y_twr + 1] != NULL)
+    if (y_twr < 9 && twr[x_twr][y_twr + 1] != nullptr)
       twr[x_twr][y_twr + 1]->draw();
-    if (x_twr < 9 && y_twr < 9 && twr[x_twr + 1][y_twr + 1] != NULL)
+    if (x_twr < 9 && y_twr < 9 && twr[x_twr + 1][y_twr + 1] != nullptr)
       twr[x_twr + 1][y_twr + 1]->draw();
 
     if (vsp->inf->count == 16) {
@@ -257,7 +257,7 @@ void CreateTower(int x, int y) {
 void DeleteTower(int x, int y) {
   DrawIMG(x * range, y * range, range, range, x * range, y * range, back,
           screen);
-  twr[x][y] = NULL;
+  twr[x][y] = nullptr;
   del_tower(x, y);
 
   quine *vsp = ufo;
@@ -300,7 +300,7 @@ int main(int argc, char **argv) {
 
   SDL_WM_SetCaption("AlienTD", "AlienTD");
   screen = SDL_SetVideoMode(800, 600, 32, SDL_HWSURFACE | SDL_DOUBLEBUF);
-  if (screen == NULL) {
+  if (screen == nullptr) {
     printf("Error");
     exit(1);
   }
@@ -352,10 +352,10 @@ int main(int argc, char **argv) {
           x_tmp = (int)event.button.x / range;
           y_tmp = (int)event.button.y / range;
           //	printf ("%i %i\n",x_tmp,y_tmp);
-          if (twr[x_tmp][y_tmp] == NULL && event.button.x <= 600 &&
+          if (twr[x_tmp][y_tmp] == nullptr && event.button.x <= 600 &&
               event.button.button == 1 && money - 100 >= 0)
             CreateTower(x_tmp, y_tmp);
-          if (twr[x_tmp][y_tmp] != NULL && event.button.x <= 600 &&
+          if (twr[x_tmp][y_tmp] != nullptr && event.button.x <= 600 &&
               event.button.button == 3)
             DeleteTower(x_tmp, y_tmp);
           if (!start && x_tmp > 9 && x_tmp < 14 && y_tmp == 0) {
@@ -382,7 +382,7 @@ int main(int argc, char **argv) {
           if (x_vsp != x || y_vsp != y) {
             DrawIMG(x_vsp * range, y_vsp * range, range, range, x_vsp * range,
                     y_vsp * range, back, screen);
-            if (twr[x_vsp][y_vsp] != NULL)
+            if (twr[x_vsp][y_vsp] != nullptr)
               twr[x_vsp][y_vsp]->draw();
           }
 

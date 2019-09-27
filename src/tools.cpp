@@ -7,7 +7,7 @@ void DrawIMG(int x, int y, SDL_Surface *img, SDL_Surface *screen) {
   SDL_Rect dest;
   dest.x = x;
   dest.y = y;
-  SDL_BlitSurface(img, NULL, screen, &dest);
+  SDL_BlitSurface(img, nullptr, screen, &dest);
 }
 
 void DrawIMG(int x, int y, int w, int h, int sx, int sy, SDL_Surface *img,

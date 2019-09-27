@@ -10,7 +10,7 @@ public:
   tower(int x_tmp, int y_tmp, SDL_Surface *dir, SDL_Surface *screen)
       : go(x_tmp, y_tmp, dir, screen) {
     radius = (int)1 * range + 0.5 * range;
-    attacked = NULL;
+    attacked = nullptr;
     speed = 5;
     x_bull_end = -1;
     y_bull_end = -1;

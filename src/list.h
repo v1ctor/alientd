@@ -13,7 +13,7 @@ struct quine {
 };
 
 template <class E> bool empty(E *first) {
-  if (first == NULL)
+  if (first == nullptr)
     return true;
   return false;
 };
@@ -35,10 +35,10 @@ template <class E, class T> E *push(E *first, T tmp) {
 
 template <class E> E *pop(E *first) {
   E *vsp;
-  if (first->next != NULL)
+  if (first->next != nullptr)
     vsp = first->next;
   else
-    vsp == NULL;
+    vsp == nullptr;
   delete first;
   return vsp;
 };
@@ -61,7 +61,7 @@ template <class E, class T> E *pushsort(E *first, T input) {
       return tmp;
     }
     while (vsp) {
-      if (vsp->next == NULL) {
+      if (vsp->next == nullptr) {
         vsp->next = tmp;
         return first;
       }
@@ -82,7 +82,7 @@ template <class E, class T> E *pushsort(E *first, T input) {
 template <class E> void print(E *first) {
   E *vsp;
   vsp = first;
-  while (vsp != NULL) {
+  while (vsp != nullptr) {
     printf("%s\n", "----------------------------");
     printf("x,y,F = %i %i %i\n", vsp->inf.x, vsp->inf.y,
            vsp->inf.F); //,vsp->inf.parent->x,vsp->inf.parent->y);
@@ -95,7 +95,7 @@ template <class E> void print(E *first) {
 template <class E, class T> bool find(E *first, T input) {
   E *vsp;
   vsp = first;
-  while (vsp != NULL) { //    printf("%i %i %i
+  while (vsp != nullptr) { //    printf("%i %i %i
                         //    %i\n",vsp->inf.x,vsp->inf.y,input.x,input.y);
     if (vsp->inf.x == input.x && vsp->inf.y == input.y) {
       //~ printf("%s\n","find");
@@ -121,11 +121,11 @@ template <class E> void del(E *first) {
   while (vsp) {
     first = vsp;
     vsp = vsp->next;
-    //~ if (first->inf.parent != NULL)
+    //~ if (first->inf.parent != nullptr)
     //~ delete first->inf.parent;
     delete first;
   }
-  //~ if (vsp->inf.parent != NULL)
+  //~ if (vsp->inf.parent != nullptr)
   //~ delete vsp -> inf.parent;
   delete vsp;
 };
