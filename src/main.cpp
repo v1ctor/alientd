@@ -301,14 +301,14 @@ bool initSDL() {
   return renderer != nullptr;
 }
 
-void pressButton(int screenX, int screenY) {
+void pressButton(int screenX, int screenY, int button) {
   int x_tmp = screenX / range;
   int y_tmp = screenY / range;
-  if (twr[x_tmp][y_tmp] == nullptr && event.button.x <= 600 &&
-      event.button.button == 1 && money - 100 >= 0)
+  if (twr[x_tmp][y_tmp] == nullptr && screenX <= 600 &&
+      button == 1 && money - 100 >= 0)
     CreateTower(x_tmp, y_tmp);
-  if (twr[x_tmp][y_tmp] != nullptr && event.button.x <= 600 &&
-      event.button.button == 3)
+  if (twr[x_tmp][y_tmp] != nullptr && screenX <= 600 &&
+      button == 3)
     DeleteTower(x_tmp, y_tmp);
   if (!start && x_tmp > 9 && x_tmp < 14 && y_tmp == 0) {
     start = true;
@@ -319,6 +319,7 @@ void pressButton(int screenX, int screenY) {
                            alien, renderer);
     ufo = new quine();
     ufo->inf = tmp;
+  }
 }
 
 void mouseMove(int x, int y) {
@@ -337,6 +338,7 @@ void mouseMove(int x, int y) {
 }
 
 bool handleEvent() {
+  SDL_Event event;
   while (SDL_PollEvent(&event)) {
     switch (event.type) {
     case SDL_QUIT:
@@ -348,8 +350,7 @@ bool handleEvent() {
       }
       break;
     case SDL_MOUSEBUTTONDOWN:
-      pressButton(event.button.x, event.button.y);
-      }
+      pressButton(event.button.x, event.button.y, event.button.button);
       break;
     case SDL_MOUSEMOTION:
       int x, y;
@@ -359,13 +360,13 @@ bool handleEvent() {
       mouseMove(x, y);
       break;
     }
-    return true;
+  }
+  return true;
 }
 
 void runMainLoop() {
   bool done = false;
   while (!done) {
-    SDL_Event event;
     if (!handleEvent()) {
       done = true;
     }
