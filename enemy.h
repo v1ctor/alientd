@@ -3,53 +3,48 @@
 
 #include "go.h"
 //#include "spisok.h"
-	struct node
-{	int G;
-	int H;
-	int F; //= H + G;
-	int x;
-	int y;
-	node *parent;
-};
-	
-	
-	
-struct zveno
-{
-	node inf;
-	zveno *next;
-	//zveno *prev;
+struct node {
+  int G;
+  int H;
+  int F;  //= H + G;
+  int x;
+  int y;
+  node *parent;
 };
 
-class enemy : public go
-{
-public:
-	enemy(int x_tmp, int y_tmp, SDL_Surface *dir, SDL_Surface *screen):go(x_tmp,y_tmp,dir,screen)
-	{
-			speed = 1;
-			count = 0;
-			health = 150;
-			kill = false;
-			price = 50;
-			flag = true;
-	};
-	~enemy(){};
-	void move(int x_f,int y_f);
-	bool kill;
-	//int getxprev(){return x_prev;};
-	//int getyprev(){return y_prev;};
-	int count;
-	int health;
-	int price;
-	zveno *parth;
-	bool flag;
-	node middle;
-protected:
-	int speed;
-
-	//int x_prev;
-	//int y_prev;
-
-
+struct zveno {
+  node inf;
+  zveno *next;
+  // zveno *prev;
 };
-#endif //__ENEMY_H__
+
+class enemy : public go {
+ public:
+  enemy(int x_tmp, int y_tmp, SDL_Surface *dir, SDL_Surface *screen)
+      : go(x_tmp, y_tmp, dir, screen) {
+    speed = 1;
+    count = 0;
+    health = 150;
+    kill = false;
+    price = 50;
+    flag = true;
+  };
+  ~enemy(){};
+  void move(int x_f, int y_f);
+  bool kill;
+  // int getxprev(){return x_prev;};
+  // int getyprev(){return y_prev;};
+  int count;
+  int health;
+  int price;
+  zveno *parth;
+  bool flag;
+  node middle;
+
+ protected:
+  int speed;
+
+  // int x_prev;
+  // int y_prev;
+};
+#endif  //__ENEMY_H__

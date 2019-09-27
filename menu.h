@@ -3,10 +3,6 @@
 
 #include "tools.h"
 
-static bool start =  false;
-
-
-
-
+static bool start = false;
 
 #endif
