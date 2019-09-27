@@ -1,5 +1,6 @@
 #include "pathfinder.h"
-#include <stdio.h>
+
+namespace alientd {
 
 void add_tower(int i, int j) { nodemap[i][j] = true; }
 
@@ -224,4 +225,6 @@ zveno *get_path(int x_s, int y_s, int x_f, int y_f) {
   del(open);
   del(close);
   return path;
+}
+
 }

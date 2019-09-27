@@ -1,39 +1,58 @@
-#include "spisok.h"
+#ifndef SPISOK_H
+#define SPISOK_H
 
-zveno *push(zveno *first, node tmp) {
+#include "enemy.h"
+
+namespace alientd {
+
+struct quine {
+  enemy *inf;
+  quine *next;
+  quine *prev;
+  // zveno *prev;
+};
+
+template <class E> bool empty(E *first) {
+  if (first == NULL)
+    return true;
+  return false;
+};
+
+template <class E, class T> E *push(E *first, T tmp) {
   if (empty(first)) {
-    first = new zveno();
+    first = new E();
     first->inf = tmp;
+    // printf("%s\n","first");
   } else {
-    zveno *vsp;
-    vsp = new zveno();
+    E *vsp;
+    vsp = new E();
     vsp->inf = tmp;
     vsp->next = first;
     first = vsp;
   }
   return first;
-}
+};
 
-zveno *pop(zveno *first) {
-  zveno *vsp;
+template <class E> E *pop(E *first) {
+  E *vsp;
   if (first->next != NULL)
     vsp = first->next;
   else
     vsp == NULL;
   delete first;
   return vsp;
-}
+};
 
-zveno *pushsort(zveno *first, node input) {
+template <class E, class T> E *pushsort(E *first, T input) {
   if (!first) {
-    first = new zveno();
+    first = new E();
     first->inf = input;
 
   } else {
-    zveno *vsp;
+    E *vsp;
     vsp = first;
-    zveno *tmp;
-    tmp = new zveno();
+    E *tmp;
+    tmp = new E();
     tmp->inf = input;
 
     if (vsp->inf.F > input.F) {
@@ -58,10 +77,10 @@ zveno *pushsort(zveno *first, node input) {
     }
   }
   return first;
-}
+};
 
-void print(zveno *first) {
-  zveno *vsp;
+template <class E> void print(E *first) {
+  E *vsp;
   vsp = first;
   while (vsp != NULL) {
     printf("%s\n", "----------------------------");
@@ -71,13 +90,15 @@ void print(zveno *first) {
     // printf("%s\n","----------------------------");
   }
   printf("%s\n", "end------------------------------");
-}
+};
 
-bool find(zveno *first, node input) {
-  zveno *vsp;
+template <class E, class T> bool find(E *first, T input) {
+  E *vsp;
   vsp = first;
-  while (vsp != NULL) {
+  while (vsp != NULL) { //    printf("%i %i %i
+                        //    %i\n",vsp->inf.x,vsp->inf.y,input.x,input.y);
     if (vsp->inf.x == input.x && vsp->inf.y == input.y) {
+      //~ printf("%s\n","find");
       return true;
     }
 
@@ -85,23 +106,29 @@ bool find(zveno *first, node input) {
   }
 
   return false;
-}
+};
 
-bool empty(zveno *first) {
-  if (first == NULL)
-    return true;
-  return false;
-}
+//~ node get_node(zveno *first)
+//~ {
+//~
+//~ return first->inf;
+//~
+//~ }
 
-node get_node(zveno *first) { return first->inf; }
-
-void del(zveno *first) {
-  zveno *vsp;
+template <class E> void del(E *first) {
+  E *vsp;
   vsp = first;
   while (vsp) {
     first = vsp;
     vsp = vsp->next;
+    //~ if (first->inf.parent != NULL)
+    //~ delete first->inf.parent;
     delete first;
   }
+  //~ if (vsp->inf.parent != NULL)
+  //~ delete vsp -> inf.parent;
   delete vsp;
+};
+
 }
+#endif

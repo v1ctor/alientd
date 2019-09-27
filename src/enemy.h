@@ -3,6 +3,8 @@
 #ifndef ENEMY_H
 #define ENEMY_H
 
+namespace alientd {
+
 struct node {
   int G;
   int H;
@@ -42,4 +44,7 @@ protected:
   int speed;
 
 };
+
+}
+
 #endif //__ENEMY_H__

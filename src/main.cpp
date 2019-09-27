@@ -1,9 +1,11 @@
 
 #include "enemy.h"
 #include "pathfinder.h"
-#include "spisok.h"
+#include "list.h"
 #include "tools.h"
 #include "tower.h"
+
+using namespace alientd;
 
 quine *ufo;
 tower *twr[r_count][r_count] = {};

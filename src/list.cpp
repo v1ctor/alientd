@@ -1,57 +1,41 @@
-#ifndef SPISOK_H
-#define SPISOK_H
+#include "list.h"
 
-//#include "tools.h"
-#include "enemy.h"
+namespace alientd {
 
-struct quine {
-  enemy *inf;
-  quine *next;
-  quine *prev;
-  // zveno *prev;
-};
-
-template <class E> bool empty(E *first) {
-  if (first == NULL)
-    return true;
-  return false;
-};
-
-template <class E, class T> E *push(E *first, T tmp) {
+zveno *push(zveno *first, node tmp) {
   if (empty(first)) {
-    first = new E();
+    first = new zveno();
     first->inf = tmp;
-    // printf("%s\n","first");
   } else {
-    E *vsp;
-    vsp = new E();
+    zveno *vsp;
+    vsp = new zveno();
     vsp->inf = tmp;
     vsp->next = first;
     first = vsp;
   }
   return first;
-};
+}
 
-template <class E> E *pop(E *first) {
-  E *vsp;
+zveno *pop(zveno *first) {
+  zveno *vsp;
   if (first->next != NULL)
     vsp = first->next;
   else
     vsp == NULL;
   delete first;
   return vsp;
-};
+}
 
-template <class E, class T> E *pushsort(E *first, T input) {
+zveno *pushsort(zveno *first, node input) {
   if (!first) {
-    first = new E();
+    first = new zveno();
     first->inf = input;
 
   } else {
-    E *vsp;
+    zveno *vsp;
     vsp = first;
-    E *tmp;
-    tmp = new E();
+    zveno *tmp;
+    tmp = new zveno();
     tmp->inf = input;
 
     if (vsp->inf.F > input.F) {
@@ -76,10 +60,10 @@ template <class E, class T> E *pushsort(E *first, T input) {
     }
   }
   return first;
-};
+}
 
-template <class E> void print(E *first) {
-  E *vsp;
+void print(zveno *first) {
+  zveno *vsp;
   vsp = first;
   while (vsp != NULL) {
     printf("%s\n", "----------------------------");
@@ -89,15 +73,13 @@ template <class E> void print(E *first) {
     // printf("%s\n","----------------------------");
   }
   printf("%s\n", "end------------------------------");
-};
+}
 
-template <class E, class T> bool find(E *first, T input) {
-  E *vsp;
+bool find(zveno *first, node input) {
+  zveno *vsp;
   vsp = first;
-  while (vsp != NULL) { //    printf("%i %i %i
-                        //    %i\n",vsp->inf.x,vsp->inf.y,input.x,input.y);
+  while (vsp != NULL) {
     if (vsp->inf.x == input.x && vsp->inf.y == input.y) {
-      //~ printf("%s\n","find");
       return true;
     }
 
@@ -105,28 +87,25 @@ template <class E, class T> bool find(E *first, T input) {
   }
 
   return false;
-};
+}
 
-//~ node get_node(zveno *first)
-//~ {
-//~
-//~ return first->inf;
-//~
-//~ }
+bool empty(zveno *first) {
+  if (first == NULL)
+    return true;
+  return false;
+}
 
-template <class E> void del(E *first) {
-  E *vsp;
+node get_node(zveno *first) { return first->inf; }
+
+void del(zveno *first) {
+  zveno *vsp;
   vsp = first;
   while (vsp) {
     first = vsp;
     vsp = vsp->next;
-    //~ if (first->inf.parent != NULL)
-    //~ delete first->inf.parent;
     delete first;
   }
-  //~ if (vsp->inf.parent != NULL)
-  //~ delete vsp -> inf.parent;
   delete vsp;
-};
+}
 
-#endif
+}

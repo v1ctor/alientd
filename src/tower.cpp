@@ -2,6 +2,8 @@
 #include "tower.h"
 #include "tools.h"
 
+namespace alientd {
+
 void tower::attack() {}
 
 bool tower::detect(enemy *tmp) {
@@ -19,4 +21,6 @@ bool tower::detect(enemy *tmp) {
     return true;
 
   return false;
+}
+
 }

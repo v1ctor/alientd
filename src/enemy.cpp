@@ -1,9 +1,9 @@
 
 #include "enemy.h"
 #include "pathfinder.h"
-#include "spisok.h"
-#include <iostream>
-#include <stdio.h>
+#include "list.h"
+
+namespace alientd {
 
 void enemy::move(int x_f, int y_f) {
   x_c = (int)(x + 0.5 * range);
@@ -42,4 +42,6 @@ void enemy::move(int x_f, int y_f) {
   }
 
   return;
+}
+
 }

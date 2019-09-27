@@ -4,6 +4,8 @@
 #ifndef GO_H
 #define GO_H
 
+namespace alientd {
+
 class go {
 public:
   go(int x_tmp, int y_tmp, SDL_Surface *dir, SDL_Surface *screen);
@@ -22,4 +24,5 @@ protected:
   SDL_Surface *mScreen;
 };
 
+}
 #endif //__GO_H__

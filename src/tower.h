@@ -3,6 +3,8 @@
 #include "enemy.h"
 #include "go.h"
 
+namespace alientd {
+
 class tower : public go {
 public:
   tower(int x_tmp, int y_tmp, SDL_Surface *dir, SDL_Surface *screen)
@@ -30,4 +32,6 @@ public:
 protected:
   // int x_prev,y_prev;
 };
+
+}
 #endif //__ENEMY_H__

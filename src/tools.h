@@ -8,7 +8,8 @@
 
 #include "go.h"
 #include <math.h>
-#include <stdio.h>
+
+namespace alientd {
 
 static SDL_Surface *screen, *back, *alien, *towerimg, *bullet, *allow, *deny,
     *startimg, *menu;
@@ -19,4 +20,5 @@ static const int r_count = 10;
 void DrawIMG(int x, int y, SDL_Surface *img, SDL_Surface *screen);
 void DrawIMG(int x, int y, int w, int h, int sx, int sy, SDL_Surface *img,
              SDL_Surface *screen);
+}
 #endif //__TOOLS_H__

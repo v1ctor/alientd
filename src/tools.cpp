@@ -1,5 +1,7 @@
 #include "tools.h"
 
+namespace alientd {
+
 void DrawIMG(int x, int y, SDL_Surface *img, SDL_Surface *screen) {
   SDL_SetColorKey(img, SDL_SRCCOLORKEY, SDL_MapRGB(img->format, 0, 255, 0));
   SDL_Rect dest;
@@ -22,4 +24,6 @@ void DrawIMG(int x, int y, int w, int h, int sx, int sy, SDL_Surface *img,
   src.h = h;
 
   SDL_BlitSurface(img, &src, screen, &dest);
+}
+
 }
