@@ -40,7 +40,6 @@ zveno *pushsort(zveno *first, node input) {
 
     if (vsp->inf.F > input.F) {
       tmp->next = vsp;
-      // printf("%s\n","first");
       return tmp;
     }
     while (vsp) {
@@ -51,8 +50,6 @@ zveno *pushsort(zveno *first, node input) {
       if (vsp->next->inf.F > input.F) {
         tmp->next = vsp->next;
         vsp->next = tmp;
-        // printf("%s\n","middle");
-        // delete tmp;
         return first;
       }
 
@@ -60,19 +57,6 @@ zveno *pushsort(zveno *first, node input) {
     }
   }
   return first;
-}
-
-void print(zveno *first) {
-  zveno *vsp;
-  vsp = first;
-  while (vsp != nullptr) {
-    printf("%s\n", "----------------------------");
-    printf("x,y,F = %i %i %i\n", vsp->inf.x, vsp->inf.y,
-           vsp->inf.F); //,vsp->inf.parent->x,vsp->inf.parent->y);
-    vsp = vsp->next;
-    // printf("%s\n","----------------------------");
-  }
-  printf("%s\n", "end------------------------------");
 }
 
 bool find(zveno *first, node input) {

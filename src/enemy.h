@@ -4,7 +4,7 @@
 #define ENEMY_H
 
 namespace alientd {
-  
+
 struct zveno {
   node inf;
   zveno *next;
@@ -23,6 +23,7 @@ public:
   };
   ~enemy() = default;
   void move(int x_f, int y_f);
+
   bool kill;
   int count;
   int health;

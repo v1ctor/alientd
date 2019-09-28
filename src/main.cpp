@@ -34,7 +34,8 @@ SDL_Color clr; // = {255,255,255,0};
 SDL_Rect dest; // = {620, 0,0,0};
 std::string fontname = "font/seed_cyr_medim.ttf";
 SDL_Renderer *renderer = nullptr;
-
+TTF_Font* font = nullptr;
+Texture
 // void print_ttf(std::string message, std::string fontName, int size,
 //                SDL_Color color, SDL_Rect dest) {
 //   TTF_Font *font = TTF_OpenFont(fontName.c_str(), size);
@@ -51,6 +52,8 @@ SDL_Renderer *renderer = nullptr;
 void InitImages() {
   back.loadFromFile(renderer, "img/background.png");
   menu.loadFromFile(renderer, "img/menu.png");
+  menu.setx(600);
+  menu.sety(60);
   towerimg.loadFromFile(renderer, "img/tower.png");
   alien.loadFromFile(renderer, "img/ufo.png");
   allow.loadFromFile(renderer, "img/allow.png");
@@ -59,18 +62,8 @@ void InitImages() {
 }
 
 void CheckMoney() {
-  clr = {0, 255, 240, 0};
-  dest = {620, 60, 0, 0};
-
-  DrawIMG(dest.x - 20, dest.y, 200, 22, 0, 0, menu, renderer);
-
-  // print_ttf("Money:", fontname, 20, clr, dest);
-  dest = {700, 60, 0, 0};
-
-  char *buff = new char();
-  sprintf(buff, "%i", money);
-  // print_ttf(buff, fontname, 20, clr, dest);
-  delete buff;
+  menu->getTexture().draw(renderer);
+  print_ttf("Money: " + money, fontname, 20, clr, dest);
 }
 
 void Shot(tower *tmp) {
@@ -365,6 +358,7 @@ void runMainLoop() {
     if (!handleEvent()) {
       done = true;
     }
+    UpdateState();
     DrawScene();
   }
 }
@@ -375,7 +369,7 @@ void initGameState() {
   DrawIMG(600, 0, menu, renderer);
   clr = {255, 255, 255, 0};
   dest = {620, 0, 0, 0};
-  // print_ttf("START", fontname, 60, clr, dest);
+  print_ttf("START", fontname, 60, clr, dest);
   CheckMoney();
 }
 
