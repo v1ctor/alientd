@@ -3,12 +3,25 @@
 #include <string>
 
 #include "enemy.h"
-#include "pathfinder.h"
 #include "list.h"
+#include "pathfinder.h"
 #include "tools.h"
 #include "tower.h"
+#include "texture.h"
 
 using namespace alientd;
+
+SDL_Window *screen;
+Texture back, alien, towerimg, bullet, allow, deny, startimg, menu;
+
+int money = 500;
+
+
+struct quine {
+  enemy *inf;
+  quine *next;
+  quine *prev;
+};
 
 quine *ufo;
 tower *twr[r_count][r_count] = {};
@@ -20,45 +33,29 @@ bool start = false;
 SDL_Color clr; // = {255,255,255,0};
 SDL_Rect dest; // = {620, 0,0,0};
 std::string fontname = "font/seed_cyr_medim.ttf";
-SDL_Renderer* renderer = nullptr;
+SDL_Renderer *renderer = nullptr;
 
-void print_ttf(std::string message, std::string fontName, int size, SDL_Color color, SDL_Rect dest) {
-  TTF_Font *font = TTF_OpenFont(fontName.c_str(), size);
-  if (!font)
-    printf("TTF_OpenFont: %s\n", TTF_GetError());
-  SDL_Surface* surfaceMessage = TTF_RenderText_Blended(font, message.c_str(), color);
-  SDL_Texture* result = SDL_CreateTextureFromSurface(renderer, surfaceMessage); //now you can convert it into a texture
-  SDL_RenderCopy(renderer, result, NULL, &dest);
-  SDL_FreeSurface(surfaceMessage);
-}
-
-SDL_Texture* loadImage(std::string filename) {
-  SDL_Texture* newTexture = nullptr;
-  SDL_Surface* loadedSurface = IMG_Load(filename.c_str() );
-   if (loadedSurface == nullptr) {
-     return nullptr;
-   }
-   SDL_SetColorKey(loadedSurface, SDL_TRUE, SDL_MapRGB(loadedSurface->format, 0, 0xFF, 0xFF));
-
-   //Create texture from surface pixels
-   newTexture = SDL_CreateTextureFromSurface(renderer, loadedSurface);
-   if(newTexture == NULL) {
-       return nullptr;
-    }
-
-   //Get rid of old loaded surface
-   SDL_FreeSurface(loadedSurface);
-   return newTexture;
-}
+// void print_ttf(std::string message, std::string fontName, int size,
+//                SDL_Color color, SDL_Rect dest) {
+//   TTF_Font *font = TTF_OpenFont(fontName.c_str(), size);
+//   if (!font)
+//     printf("TTF_OpenFont: %s\n", TTF_GetError());
+//   SDL_Surface *surfaceMessage =
+//       TTF_RenderText_Blended(font, message.c_str(), color);
+//   SDL_Texture *result = SDL_CreateTextureFromSurface(
+//       renderer, surfaceMessage); // now you can convert it into a texture
+//   SDL_RenderCopy(renderer, result, NULL, &dest);
+//   SDL_FreeSurface(surfaceMessage);
+// }
 
 void InitImages() {
-  back = loadImage("img/background.png");
-  menu = loadImage("img/menu.png");
-  towerimg = loadImage("img/tower.png");
-  alien = loadImage("img/ufo.png");
-  allow = loadImage("img/allow.png");
-  deny = loadImage("img/deny.png");
-  bullet = loadImage("img/bullet.png");
+  back.loadFromFile(renderer, "img/background.png");
+  menu.loadFromFile(renderer, "img/menu.png");
+  towerimg.loadFromFile(renderer, "img/tower.png");
+  alien.loadFromFile(renderer, "img/ufo.png");
+  allow.loadFromFile(renderer, "img/allow.png");
+  deny.loadFromFile(renderer, "img/deny.png");
+  bullet.loadFromFile(renderer, "img/bullet.png");
 }
 
 void CheckMoney() {
@@ -67,12 +64,12 @@ void CheckMoney() {
 
   DrawIMG(dest.x - 20, dest.y, 200, 22, 0, 0, menu, renderer);
 
-  print_ttf("Money:", fontname, 20, clr, dest);
+  // print_ttf("Money:", fontname, 20, clr, dest);
   dest = {700, 60, 0, 0};
 
   char *buff = new char();
   sprintf(buff, "%i", money);
-  print_ttf(buff, fontname, 20, clr, dest);
+  // print_ttf(buff, fontname, 20, clr, dest);
   delete buff;
 }
 
@@ -86,8 +83,8 @@ void Shot(tower *tmp) {
     //Отрисовка фона и башни
     int w, h;
     SDL_QueryTexture(bullet, NULL, NULL, &w, &h);
-    DrawIMG(tmp->x_bull, tmp->y_bull, h, w, tmp->x_bull,
-            tmp->y_bull, back, renderer);
+    DrawIMG(tmp->x_bull, tmp->y_bull, h, w, tmp->x_bull, tmp->y_bull, back,
+            renderer);
     DrawIMG(tmp->getx(), tmp->gety(), towerimg, renderer);
 
     //Расстояние по х и у от пули до врага
@@ -148,11 +145,10 @@ void DrawTowers() {
             // printf("%i\n",attacked->health);
             if (twr[i][j]->attacked->kill ||
                 !twr[i][j]->detect(twr[i][j]->attacked)) {
-                  int w, h;
-                  SDL_QueryTexture(bullet, NULL, NULL, &w, &h);
-              DrawIMG(twr[i][j]->x_bull, twr[i][j]->y_bull, h,
-                      w, twr[i][j]->x_bull, twr[i][j]->y_bull, back,
-                      renderer);
+              int w, h;
+              SDL_QueryTexture(bullet, NULL, NULL, &w, &h);
+              DrawIMG(twr[i][j]->x_bull, twr[i][j]->y_bull, h, w,
+                      twr[i][j]->x_bull, twr[i][j]->y_bull, back, renderer);
               DrawIMG(twr[i][j]->getx(), twr[i][j]->gety(), towerimg, renderer);
               twr[i][j]->attacked = nullptr;
             }
@@ -184,9 +180,8 @@ void DrawEnemy() {
 
     int w, h;
     SDL_QueryTexture(vsp->inf->getimg(), NULL, NULL, &w, &h);
-    DrawIMG(vsp->inf->getx(), vsp->inf->gety(), h,
-            w, vsp->inf->getx(), vsp->inf->gety(), back,
-            renderer);
+    DrawIMG(vsp->inf->getx(), vsp->inf->gety(), h, w, vsp->inf->getx(),
+            vsp->inf->gety(), back, renderer);
     if ((x_twr == 9 && y_twr == 0) || vsp->inf->kill) {
       if (vsp == ufo) {
         ufo = vsp->next;
@@ -215,7 +210,6 @@ void DrawEnemy() {
 
     if (vsp->inf->count == 16) {
       vsp->inf->move(540, 0);
-      // CreateEnemy();
 
       vsp->inf->count = 0;
     }
@@ -230,6 +224,8 @@ void DrawEnemy() {
 }
 
 void DrawScene() {
+  SDL_SetRenderDrawColor(renderer, 0x00, 0x00, 0x00, 0xFF);
+  SDL_RenderClear(renderer);
   DrawTowers();
   if (start) {
     DrawEnemy();
@@ -269,6 +265,9 @@ void DeleteTower(int x, int y) {
 }
 
 void end() {
+  SDL_DestroyRenderer(renderer);
+  SDL_DestroyWindow(screen);
+
   TTF_Quit();
   SDL_Quit();
   IMG_Quit();
@@ -289,11 +288,9 @@ bool initSDL() {
     return false;
   }
 
-  SDL_Window *screen = SDL_CreateWindow("My Game Window",
-                          SDL_WINDOWPOS_UNDEFINED,
-                          SDL_WINDOWPOS_UNDEFINED,
-                          800, 600,
-                          SDL_WINDOW_OPENGL);
+  screen =
+      SDL_CreateWindow("My Game Window", SDL_WINDOWPOS_UNDEFINED,
+                       SDL_WINDOWPOS_UNDEFINED, 800, 600, SDL_WINDOW_OPENGL);
   if (screen == nullptr) {
     return false;
   }
@@ -304,19 +301,17 @@ bool initSDL() {
 void pressButton(int screenX, int screenY, int button) {
   int x_tmp = screenX / range;
   int y_tmp = screenY / range;
-  if (twr[x_tmp][y_tmp] == nullptr && screenX <= 600 &&
-      button == 1 && money - 100 >= 0)
+  if (twr[x_tmp][y_tmp] == nullptr && screenX <= 600 && button == 1 &&
+      money - 100 >= 0)
     CreateTower(x_tmp, y_tmp);
-  if (twr[x_tmp][y_tmp] != nullptr && screenX <= 600 &&
-      button == 3)
+  if (twr[x_tmp][y_tmp] != nullptr && screenX <= 600 && button == 3)
     DeleteTower(x_tmp, y_tmp);
   if (!start && x_tmp > 9 && x_tmp < 14 && y_tmp == 0) {
     start = true;
     int w, h;
     SDL_QueryTexture(alien, NULL, NULL, &w, &h);
     enemy *tmp = new enemy((int)(0 * range + (range - w) / 2),
-                           (int)(9 * range + (range - h) / 2),
-                           alien, renderer);
+                           (int)(9 * range + (range - h) / 2), alien, renderer);
     ufo = new quine();
     ufo->inf = tmp;
   }
@@ -380,7 +375,7 @@ void initGameState() {
   DrawIMG(600, 0, menu, renderer);
   clr = {255, 255, 255, 0};
   dest = {620, 0, 0, 0};
-  print_ttf("START", fontname, 60, clr, dest);
+  // print_ttf("START", fontname, 60, clr, dest);
   CheckMoney();
 }
 
@@ -392,5 +387,6 @@ int main(int argc, char **argv) {
 
   runMainLoop();
 
+  end();
   return 0;
 }

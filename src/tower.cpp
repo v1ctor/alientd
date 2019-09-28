@@ -23,4 +23,4 @@ bool tower::detect(enemy *tmp) {
   return false;
 }
 
-}
+} // namespace alientd

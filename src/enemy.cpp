@@ -1,7 +1,7 @@
 
 #include "enemy.h"
-#include "pathfinder.h"
 #include "list.h"
+#include "pathfinder.h"
 
 namespace alientd {
 
@@ -12,7 +12,7 @@ void enemy::move(int x_f, int y_f) {
   if (health > 0) {
     if (flag) {
       path = get_path((int)(x / range), (int)(y / range), (int)(x_f / range),
-                        (int)(y_f / range));
+                      (int)(y_f / range));
       print(path);
       flag = false;
       path = pop(path);
@@ -44,4 +44,4 @@ void enemy::move(int x_f, int y_f) {
   return;
 }
 
-}
+} // namespace alientd

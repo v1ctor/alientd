@@ -9,9 +9,19 @@
 
 namespace alientd {
 
+struct node {
+  int G;
+  int H;
+  int F; //= H + G;
+  int x;
+  int y;
+  node *parent;
+};
+
+
 static bool nodemap[r_count][r_count] = {};
 
-zveno *get_path(int x_s, int y_s, int x_e, int y_e);
+zveno *get_path(int fromX, int fromY, int toX, int toY);
 void add_tower(int i, int j);
 void del_tower(int i, int j);
 

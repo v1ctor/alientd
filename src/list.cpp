@@ -108,4 +108,4 @@ void del(zveno *first) {
   delete vsp;
 }
 
-}
+} // namespace alientd

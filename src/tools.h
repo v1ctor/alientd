@@ -12,12 +12,8 @@
 
 namespace alientd {
 
-static SDL_Texture *screen, *back, *alien, *towerimg, *bullet, *allow, *deny,
-    *startimg, *menu;
-
-static int money = 500;
-static const int range = 60;
-static const int r_count = 10;
+constexpr int range = 60;
+constexpr int r_count = 10;
 
 void DrawIMG(int x, int y, SDL_Texture* texture, SDL_Renderer* renderer);
 void DrawIMG(int x, int y, int w, int h, int sx, int sy, SDL_Texture* texture, SDL_Renderer* renderer);

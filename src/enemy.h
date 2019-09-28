@@ -4,16 +4,7 @@
 #define ENEMY_H
 
 namespace alientd {
-
-struct node {
-  int G;
-  int H;
-  int F; //= H + G;
-  int x;
-  int y;
-  node *parent;
-};
-
+  
 struct zveno {
   node inf;
   zveno *next;
@@ -21,8 +12,8 @@ struct zveno {
 
 class enemy : public go {
 public:
-  enemy(int x_tmp, int y_tmp, SDL_Texture* texture, SDL_Renderer* renderer)
-      : go(x_tmp, y_tmp, texture, renderer) {
+  enemy(int x_tmp, int y_tmp, Texture* texture)
+      : go(x_tmp, y_tmp, texture) {
     speed = 1;
     count = 0;
     health = 150;

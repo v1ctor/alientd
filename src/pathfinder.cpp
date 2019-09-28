@@ -1,3 +1,6 @@
+
+#include <vector>
+
 #include "pathfinder.h"
 
 namespace alientd {
@@ -6,15 +9,15 @@ void add_tower(int i, int j) { nodemap[i][j] = true; }
 
 void del_tower(int i, int j) { nodemap[i][j] = false; }
 
-zveno *get_path(int x_s, int y_s, int x_f, int y_f) {
+zveno *get_path(int fromX, int fromY, int x_f, int y_f) {
   // coords First;
 
   zveno *path = new zveno();
-  printf("get_path = %i %i %i %i\n", x_s, y_s, x_f, y_f);
+
   //стартовый узел
   node start;
-  start.x = x_s;
-  start.y = y_s;
+  start.x = fromX;
+  start.y = fromY;
   start.G = 0;
 
   //~ финишный узел
@@ -25,14 +28,11 @@ zveno *get_path(int x_s, int y_s, int x_f, int y_f) {
   node vsp = start;
 
   //~ открытый список и добавление в список открытых
-  zveno *open = new zveno();
-  open->inf = vsp;
-  // print(open);
+  std::vector<node> open;
 
   //закрытый список
-  zveno *close = new zveno();
-  close->inf = vsp;
-  open = pop(open);
+  std::vector<node> close;
+  close.push_back(vsp);
 
   //~ цикл главный
   while ((vsp.x != finish.x || vsp.y != finish.y)) // || )
@@ -55,8 +55,6 @@ zveno *get_path(int x_s, int y_s, int x_f, int y_f) {
           tmp.H = abs(finish.x - tmp.x) + abs(finish.y - tmp.y);
           tmp.F = tmp.G + tmp.H;
           open = pushsort(open, tmp);
-          // printf("open - > %i %i\n",tmp.x,tmp.y);
-          // delete tmp.parent;
         }
       }
     }
@@ -74,8 +72,6 @@ zveno *get_path(int x_s, int y_s, int x_f, int y_f) {
           tmp.H = abs(finish.x - tmp.x) + abs(finish.y - tmp.y);
           tmp.F = tmp.G + tmp.H;
           open = pushsort(open, tmp);
-          //	printf("open - > %i %i\n",tmp.x,tmp.y);
-          // delete tmp.parent;
         }
       }
     }
@@ -93,8 +89,6 @@ zveno *get_path(int x_s, int y_s, int x_f, int y_f) {
           tmp.H = abs(finish.x - tmp.x) + abs(finish.y - tmp.y);
           tmp.F = tmp.G + tmp.H;
           open = pushsort(open, tmp);
-          // printf("open - > %i %i\n",tmp.x,tmp.y);
-          // delete tmp.parent;
         }
       }
     }
@@ -113,8 +107,6 @@ zveno *get_path(int x_s, int y_s, int x_f, int y_f) {
           tmp.H = abs(finish.x - tmp.x) + abs(finish.y - tmp.y);
           tmp.F = tmp.G + tmp.H;
           open = pushsort(open, tmp);
-          // printf("open - > %i %i\n",tmp.x,tmp.y);
-          // delete tmp.parent;
         }
       }
     }
@@ -134,8 +126,6 @@ zveno *get_path(int x_s, int y_s, int x_f, int y_f) {
               tmp.H = abs(finish.x - tmp.x) + abs(finish.y - tmp.y);
               tmp.F = tmp.G + tmp.H;
               open = pushsort(open, tmp);
-              // printf("open - > %i %i\n",tmp.x,tmp.y);
-              // delete tmp.parent;
             }
           }
     }
@@ -155,8 +145,6 @@ zveno *get_path(int x_s, int y_s, int x_f, int y_f) {
               tmp.H = abs(finish.x - tmp.x) + abs(finish.y - tmp.y);
               tmp.F = tmp.G + tmp.H;
               open = pushsort(open, tmp);
-              //	printf("open - > %i %i\n",tmp.x,tmp.y);
-              // delete tmp.parent;
             }
       }
     }
@@ -227,4 +215,4 @@ zveno *get_path(int x_s, int y_s, int x_f, int y_f) {
   return path;
 }
 
-}
+} // namespace alientd
