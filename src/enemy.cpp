@@ -13,7 +13,6 @@ void enemy::move(int x_f, int y_f) {
     if (flag) {
       path = get_path((int)(x / range), (int)(y / range), (int)(x_f / range),
                       (int)(y_f / range));
-      print(path);
       flag = false;
       path = pop(path);
       middle = path->inf;

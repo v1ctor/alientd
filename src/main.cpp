@@ -216,9 +216,20 @@ void DrawEnemy() {
   return;
 }
 
+void drawBackground() {
+  back->getTexture()->draw(renderer);
+}
+
 void DrawScene() {
   SDL_SetRenderDrawColor(renderer, 0x00, 0x00, 0x00, 0xFF);
   SDL_RenderClear(renderer);
+  DrawIMG(0, 0, back, renderer);
+  DrawIMG(600, 0, menu, renderer);
+  clr = {255, 255, 255, 0};
+  dest = {620, 0, 0, 0};
+  print_ttf("START", fontname, 60, clr, dest);
+  drawBackground();
+  CheckMoney();
   DrawTowers();
   if (start) {
     DrawEnemy();
@@ -228,22 +239,14 @@ void DrawScene() {
 
 void CreateTower(int x, int y) {
   add_tower(x, y);
-  DrawIMG(x * range, y * range, range, range, x * range, y * range, back,
-          renderer);
   twr[x][y] = new tower(x * range, y * range, towerimg, renderer);
-  twr[x][y]->draw();
-
-  quine *vsp = ufo;
-  while (vsp)
-    vsp->inf->flag = true;
-  delete vsp;
+  if (ufo != nullptr) {
+    ufo->inf->flag = true;
+  }
   money -= 100;
-  CheckMoney();
 }
 
 void DeleteTower(int x, int y) {
-  DrawIMG(x * range, y * range, range, range, x * range, y * range, back,
-          renderer);
   twr[x][y] = nullptr;
   del_tower(x, y);
 
@@ -253,8 +256,6 @@ void DeleteTower(int x, int y) {
   delete vsp;
 
   money += 50;
-
-  CheckMoney();
 }
 
 void end() {
@@ -352,6 +353,10 @@ bool handleEvent() {
   return true;
 }
 
+void UpdateState() {
+
+}
+
 void runMainLoop() {
   bool done = false;
   while (!done) {
@@ -365,12 +370,6 @@ void runMainLoop() {
 
 void initGameState() {
   InitImages();
-  DrawIMG(0, 0, back, renderer);
-  DrawIMG(600, 0, menu, renderer);
-  clr = {255, 255, 255, 0};
-  dest = {620, 0, 0, 0};
-  print_ttf("START", fontname, 60, clr, dest);
-  CheckMoney();
 }
 
 int main(int argc, char **argv) {
